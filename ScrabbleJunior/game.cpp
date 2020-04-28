@@ -1,4 +1,3 @@
-
 #include "game.h"
 using namespace std;
 
@@ -48,22 +47,27 @@ void Game::prepGame(Board &board)
     }
 
     //From here we create the vector with all characters.
-    vector<char> letterBag(lBagSet.begin(), lBagSet.end());
+    letterBag.assign(lBagSet.begin(), lBagSet.end());
+    bagSize = letterBag.size();
+
     for (int i = 0; i < players; i++)
     {
-        for (int j = 0; j < playerPool[i].size(); j++)
+        for (int j = 0; j < 7; j++)
         {
-            int index = rand() % letterBag.size();
+            int index = rand() % bagSize;
             playerPool[i].push_back(letterBag[index]);
         }
     }
+
+    printBoard();
 }
 
 void Game::getNewPool(int player)
 {
+    srand(time(NULL));
     for (int j = 0; j < 6; j++)
     {
-        int index = rand() % letterBag.size();
+        int index = rand() % bagSize;
         playerPool[player].push_back(letterBag[index]);
     }
 }
@@ -73,7 +77,7 @@ void Game::printPool(int player)
     cout << "POOL [0-6] = "; //printing the pool;
     for (int i = 0; i <= 6; i++)
     {
-        cout << "|" << playerPool[player][i] << "| ";
+        cout << " " << playerPool[player][i] << " ";
     }
 }
 
@@ -93,68 +97,169 @@ void Game::checkPool(int player)
     }
 }
 
-void Game::getPlay(int player)
+pair<string, string> Game::getPlay(int player)
 {
+    string play1, play2;
     cout << "It's your turn, player " << player + 1 << ". Use ZZ as a play to exchange chips!" << endl;
     checkPool(player);
     printPool(player);
     cout << endl;
     cout << "Please input your plays: ";
     cin >> play1 >> play2;
+    return make_pair(play1, play2);
 }
 
 void Game::exchangeChip(int player)
 {
+    srand(time(NULL));
     int ind1; //Index of the chip to switch in the playerPool.
     cout << "Hey, player " << player + 1 << ". Let's do some chip switchin', shall we?" << endl;
     cout << "NOTE: You cannot exchange an invalid/empty chip (it's represented as a -)." << endl;
     cout << "Below, is your letter pool." << endl;
     printPool(player);
+    cout << endl;
+    cout << "Input the index of the chip you wish to switch: ";
+    cin >> ind1;
     while (cin.fail())
     {
         cout << "Input the index of the chip you wish to switch: ";
         cin >> ind1;
     }
 
-    int index = rand() % letterBag.size();
+    int index = rand() % bagSize;
     playerPool[player][ind1] = letterBag[index];
+    printPool(player);
+    cout << endl;
 }
 
 void Game::exchangeChips(int player)
 {
+    srand(time(NULL));
     int ind1, ind2; //Index of the chip to switch in the playerPool.
     cout << "Hey, player " << player + 1 << ". Let's do some chip switchin', shall we?" << endl;
     cout << "NOTE: You cannot exchange an invalid/empty chip (it's represented as a -)." << endl;
     cout << "Below, is your letter pool." << endl;
     printPool(player);
+    cout << endl;
+    cout << "Input the indexes of the chips you wish to switch (put a space between them!): ";
+    cin >> ind1 >> ind2;
     while (cin.fail())
     {
-        cout << "Input the indexes of the chips you wish to switch (put a space inbetween them!): ";
+        cout << "Input the indexes of the chips you wish to switch (put a space between them!): ";
         cin >> ind1 >> ind2;
     }
 
-    int index = rand() % letterBag.size();
+    int index = rand() % bagSize;
     playerPool[player][ind1] = letterBag[index];
-    index = rand() % letterBag.size();
+    index = rand() % bagSize;
     playerPool[player][ind2] = letterBag[index];
+    printPool(player);
+    cout << endl;
 }
 
-//YOU WERE HERE
-void Game::checkWords(Info letter, int player)
+void Game::checkCapture(string word, int player)
 {
-    for (int i = 0; i < letter.words.size(); i++)
+    vector<string> a = wordData[word];
+    if (a.size() == 0)
     {
-        //GET THE LIST FROM THE MAP, CHANGE IT HOWEVER YOU NEED AND THEN UPDATE IT IN THE MAP
-        wordData.at(letter.words[i]);
+        scoreBoard[player]++;
+        int index = findIndex(boardWords, word);
+        boardWords.erase(boardWords.begin() + index);
     }
 }
 
-void Game::captureLetter(Info letter, int player)
+int Game::findIndex(vector<string> cordList, string cord)
 {
-    if ((letter.state == false) && (letter.letter != ' '))
+    int bottom = 0;
+    int top = cordList.size() - 1;
+    int middle;
+    while (bottom <= top){
+        middle = (bottom + top) / 2;
+        if (cordList[middle] > cord)
+        {
+            top = middle - 1;
+        }
+        else if (cordList[middle] < cord)
+        {
+            bottom = middle + 1;
+        }
+        else
+        { 
+            return middle;
+        }
+    }
+    return -1;
+}
+
+void Game::checkWords(Info &letter, int player, string play)
+{
+    vector<char>::iterator it = find(playerPool[player].begin(), playerPool[player].end(), letter.letter);
+
+    if (letter.words.size() == 1)
+    {
+        vector<string> a = wordData[letter.words[0]]; //a is now the list of coordinates.
+        int index = findIndex(a, play);
+        if (index == 0)
+        {
+            a.erase(a.begin() + index);
+            wordData[letter.words[0]] = a;
+            playerPool[player][distance(playerPool[player].begin(), it)] = '-';
+            checkCapture(letter.words[0], player);
+        }
+        else
+        {
+            letter.state = false;
+            cout << "You can't capture that letter, Player " << player + 1 << ". Be more careful next time!" << endl;
+        }
+    }
+    else if (letter.words.size() == 2)
+    {
+        vector<string> a = wordData[letter.words[0]];
+        int index = findIndex(a, play);
+
+        if (index == 0)
+        {
+            vector<string> b = wordData[letter.words[1]];
+            int index2 = findIndex(b, play);
+
+            a.erase(a.begin() + index);
+            b.erase(b.begin() + index2);
+            wordData[letter.words[0]] = a;
+            wordData[letter.words[1]] = b;
+            playerPool[player][distance(playerPool[player].begin(), it)] = '-';
+            checkCapture(letter.words[0], player);
+            checkCapture(letter.words[1], player);
+        }
+        else if ((index != 0) && (index != -1))
+        {
+            vector<string> b = wordData[letter.words[1]];
+            int index2 = findIndex(b, play);
+
+            if (index2 == 0)
+            {
+                a.erase(a.begin() + index);
+                b.erase(b.begin() + index2);
+                wordData[letter.words[0]] = a;
+                wordData[letter.words[1]] = b;
+                playerPool[player][distance(playerPool[player].begin(), it)] = '-';
+                checkCapture(letter.words[0], player);
+                checkCapture(letter.words[1], player);
+            }
+            else
+            {
+                letter.state = false;
+                cout << "You can't capture that letter, Player " << player + 1 << ". You have to do it in order!" << endl;
+            }
+        }
+    }
+}
+
+void Game::captureLetter(Info &letter, int player, string play)
+{
+    if ((find(playerPool[player].begin(), playerPool[player].end(), letter.letter) != playerPool[player].end()) && (letter.state == false) && (letter.letter != ' '))
     {
         letter.state = true;
-        checkWords(letter, player);
+        checkWords(letter, player, play);
     }
     else
     {
@@ -162,26 +267,26 @@ void Game::captureLetter(Info letter, int player)
     }
 }
 
-void Game::makePlay(int player)
+void Game::makePlay(int player, pair<string, string> plays)
 {
-    char p1_line = code[play1.at(0)], p1_col = code[play1.at(1)], p2_line = code[play2.at(0)], p2_col = code[play2.at(1)];
+    char p1_line = code[plays.first.at(0)], p1_col = code[plays.first.at(1)], p2_line = code[plays.second.at(0)], p2_col = code[plays.second.at(1)];
     bool p1 = true, p2 = true;
     while (true)
     {
         //Let's start by checking if the player wants to do any switching.
-        if ((play1 == "ZZ") && (play2 == "Zz"))
+        if (((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ")) && ((plays.second == "Zz") || (plays.second == "ZZ") || (plays.second == "zz") || (plays.second == "zZ")))
         {
             exchangeChips(player);
             p1 = false;
             p2 = false;
             ;
         }
-        else if ((play1 == "Zz"))
+        else if ((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ"))
         { //Checking if we have a "I need new chips" situation;
             exchangeChip(player);
             p1 = false;
         }
-        else if (play2 == "Zz")
+        else if ((plays.second == "Zz") || (plays.second == "ZZ") || (plays.second == "zz") || (plays.second == "zZ"))
         {
             exchangeChip(player);
             p2 = false;
@@ -191,29 +296,65 @@ void Game::makePlay(int player)
 
     if ((p1 == true) && (p2 == true))
     {
-        captureLetter(vectorBoard[p1_line][p1_col], player);
-        captureLetter(vectorBoard[p2_line][p2_col], player);
+        captureLetter(vectorBoard[p1_line][p1_col], player, plays.first);
+        captureLetter(vectorBoard[p2_line][p2_col], player, plays.second);
     }
     else if (p1 == true)
     {
-        captureLetter(vectorBoard[p1_line][p1_col], player);
+        captureLetter(vectorBoard[p1_line][p1_col], player, plays.first);
     }
     else if (p2 == true)
     {
-        captureLetter(vectorBoard[p2_line][p2_col], player);
+        captureLetter(vectorBoard[p2_line][p2_col], player, plays.second);
     }
 }
 
 void Game::game(Board &board, int &players, vector<int> &scoreBoard)
 {
+    bool end = false;
     while (!end)
     {
         for (int i = 0; i < players; i++)
         {
-            getPlay(i);
-            makePlay(i);
+            cout << endl;
+            pair<string, string> plays = getPlay(i);
+            makePlay(i, plays);
+            printBoard();
+
+            if (boardWords.size() == 0)
+            {
+                end = true;
+            }
+        }
+
+    }
+}
+
+void Game::declareWinner(){
+    int max = *max_element(scoreBoard.begin(), scoreBoard.end());
+    vector<int> winners;
+
+    for (int i = 0; i < scoreBoard.size(); i++){
+        if (scoreBoard[i] == max){
+            winners.push_back(i);
         }
     }
+
+    if (winners.size() != 1){
+        cout << "Congratulations, Players ";
+        for (int j = 0; j < winners.size(); j++){
+            if (j == winners.size()-2){
+                cout << winners[j] + 1 << " and ";
+                continue;
+            } else if (j == winners.size() - 1){
+                cout << winners[j] + 1;
+                continue;
+            }
+            cout << j + 1 << ", ";
+        }
+        cout << ", you're all winners!" << endl;
+    }
+    cout << "Congratulations, Player " << *max_element(scoreBoard.begin(), scoreBoard.end()) + 1 << ", you're the winner!" << endl;
 }
 
 void Game::execute()
@@ -222,12 +363,13 @@ void Game::execute()
     Board board;
     prepGame(board);
     game(board, players, scoreBoard);
+    declareWinner();
 }
 
 void Game::printBoard() const
 {
     static int size = vectorBoard.size();
-    setColorNormal();
+    //setColorNormal();
     std::cout << "  ";
     for (int i = 0; i < size; i++)
     {
@@ -237,24 +379,23 @@ void Game::printBoard() const
 
     for (int i = 0; i < size; i++)
     {
-        setColorNormal();
+        //setColorNormal();
         std::cout << char(ASCII_A + i);
-        setColorBoard();
+        //setColorBoard();
         for (int j = 0; j < size; j++)
         {
-            setColorNotCaptured();
+            //setColorNotCaptured();
             if (vectorBoard[i][j].state == true)
             {
-                setColorCaptured();
+                //setColorCaptured();
             }
             std::cout << std::setw(2);
             std::cout << vectorBoard[i][j].letter;
         }
         std::cout << '\n';
     }
-    setColorNormal();
+    //setColorNormal();
 }
-
 
 // Set text color
 void Game::setcolor(unsigned int color) const
@@ -262,6 +403,7 @@ void Game::setcolor(unsigned int color) const
     HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hcon, color);
 }
+
 //==========================================================================================
 // Set text color & background
 void Game::setcolor(unsigned int color, unsigned int background_color) const
@@ -292,8 +434,6 @@ void Game::setColorNotCaptured() const
 {
     setcolor(BLACK);
 }
-
-
 
 int main()
 {

@@ -66,6 +66,7 @@ vector<vector<Info>> Board::boardBuilder(string name){
     //Time to actually form the board.
     int length = words.size();
     Info info;
+    info.letter = ' ';
     vector<vector<Info>> vectorBoard(x, vector<Info>(y, info));
 
     for (int i = 0; i < length; i++){
@@ -86,5 +87,5 @@ vector<vector<Info>> Board::boardBuilder(string name){
     string name = "BOARD.txt";
     Board board;
     board.boardBuilder(name);
-
 }*/
+
