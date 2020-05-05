@@ -26,26 +26,31 @@ using namespace std;
 #define ASCII_A 65
 #define ASCII_a 97
 
+typedef struct
+{
+    string name;
+    int score = 0;
+    vector<char> pool;
+} Player;
 
 class Game
 {
 public:
     void beginningInstructions();
-    void game(Board &board, int &players, vector<int> &scoreBoard);
+    void game(Board &board, vector<Player> &players);
     void prepGame(Board &board);
-    void printBoard(vector<vector<Info>> &vectorBoard);
-    void executePlay(string play, int &player);
-    void getNewPool(int player);
-    void printPool(int player);
-    void checkPool(int player);
-    void checkWords(Info &letter, int player, string play);
+    void executePlay(string play, Player &player);
+    void getNewPool(Player &player);
+    void printPool(Player &player);
+    void checkPool(Player &player);
+    void checkWords(Info &letter, Player &player, string play);
     int findIndex(vector<string> &vect, string &findee);
-    void checkCapture(string word, int player);
-    void makePlay(int player, pair<string, string> plays);
-    pair<string, string> getPlay(int player);
-    void captureLetter(Info &letter, int player, string play);
-    void exchangeChip(int player);
-    void exchangeChips(int player);
+    void checkCapture(string word, Player &player);
+    void makePlay(Player &player, pair<string, string> plays);
+    pair<string, string> getPlay(Player &player);
+    void captureLetter(Info &letter, Player &player, string play);
+    void exchangeChip(Player &player);
+    void exchangeChips(Player &player);
     void declareWinner();
     void execute();
 
@@ -60,10 +65,9 @@ public:
     void setColorNotCaptured() const;
 
 private:
-    int players, bagSize;
+    int playerCount, bagSize;
+    vector<Player> players;
     string boardName;
-    vector<int> scoreBoard;
-    vector<vector<char>> playerPool;
     vector<char> letterBag;
     vector<string> boardWords;
     vector<vector<Info>> vectorBoard;
