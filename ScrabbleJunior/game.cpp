@@ -5,7 +5,7 @@ void Game::beginningInstructions()
 {
     //Let's just start with some information for the players.
     setColorNormal();
-    
+
     cout << "Hi, welcome to SCRABBLE JUNIOR!" << endl;
     cout << "In this game, you'll have a board with words to fill, letter by letter." << endl;
     cout << "Each finished turn may award you with 1 to 2 points (depending on the number of words completed in that turn)." << endl;
@@ -41,7 +41,7 @@ void Game::prepGame(Board &board)
     vector<string> vecWo = board.getWords();
     sort(vecWo.begin(), vecWo.end());
     boardWords = vecWo;
-    int letterCount;
+    int letterCount = 0;
 
     for (int i = 0; i < boardWords.size(); i++)
     {
@@ -51,30 +51,34 @@ void Game::prepGame(Board &board)
         }
     }
 
-    bagSize = lBagSet.size();
     vector<char> bag;
     bag.assign(lBagSet.begin(), lBagSet.end());
 
-    for (int i = 0; i < vectorBoard.size(); i++){
-        for (int j = 0; j < vectorBoard[i].size(); j++){
-            if (vectorBoard[i][j].letter != ' '){
+    for (int i = 0; i < vectorBoard.size(); i++)
+    {
+        for (int j = 0; j < vectorBoard[i].size(); j++)
+        {
+            if (vectorBoard[i][j].letter != ' ')
+            {
                 letterCount++; //contagem do número de letras;
             }
         }
     }
 
-    for (int k = 0; k < letterCount; k++){
+    int bagSize = bag.size();
+    for (int k = 0; k < letterCount; k++)
+    {
         int index = rand() % bagSize;
         letterBag.push_back(bag[index]); //this creates a pool with letterCount number of letters;
     }
-    
+
     for (int i = 0; i < players; i++)
     {
         for (int j = 0; j < 7; j++)
         {
-            int index = rand() % bagSize;
+            int index = rand() % bag.size();
             playerPool[i].push_back(letterBag[index]);
-            letterBag.erase(letterBag.begin()+index);
+            letterBag.erase(letterBag.begin() + index);
         }
     }
     printBoard();
@@ -83,10 +87,11 @@ void Game::prepGame(Board &board)
 void Game::getNewPool(int player)
 {
     srand(time(NULL));
-    for (int j = 0; j < 6; j++)
+    for (int j = 0; j <= 6; j++)
     {
-        int index = rand() % bagSize;
-        playerPool[player].push_back(letterBag[index]);
+        int index = rand() % letterBag.size();
+        playerPool[player][j] = letterBag[index];
+        letterBag.erase(letterBag.begin() + index);
     }
 }
 
@@ -119,6 +124,7 @@ pair<string, string> Game::getPlay(int player)
 {
     string play1, play2;
     cout << "It's your turn, player " << player + 1 << ". Use ZZ as a play to exchange chips!" << endl;
+    cout << "The pool has " << letterBag.size() << " letters, beware of that!" << endl;
     checkPool(player);
     printPool(player);
     cout << endl;
@@ -129,50 +135,89 @@ pair<string, string> Game::getPlay(int player)
 
 void Game::exchangeChip(int player)
 {
-    srand(time(NULL));
-    int ind1; //Index of the chip to switch in the playerPool.
-    cout << "Hey, player " << player + 1 << ". Let's do some chip switchin', shall we?" << endl;
-    cout << "NOTE: You cannot exchange an invalid/empty chip (it's represented as a -)." << endl;
-    cout << "Below, is your letter pool." << endl;
-    printPool(player);
-    cout << endl;
-    cout << "Input the index of the chip you wish to switch: ";
-    cin >> ind1;
-    while (cin.fail())
+    int bagSize = letterBag.size();
+    if (bagSize >= 1)
     {
+        srand(time(NULL));
+        int ind1; //Index of the chip to switch in the playerPool.
+        cout << "Hey, player " << player + 1 << ". Let's do some chip switchin', shall we?" << endl;
+        cout << "NOTE: You cannot exchange an invalid/empty chip (it's represented as a -)." << endl;
+        cout << "Below, is your letter pool." << endl;
+        printPool(player);
+        cout << endl;
         cout << "Input the index of the chip you wish to switch: ";
         cin >> ind1;
-    }
 
-    int index = rand() % bagSize;
-    playerPool[player][ind1] = letterBag[index];
-    printPool(player);
-    cout << endl;
+        while (cin.fail())
+        {
+            cout << "Input the index of the chip you wish to switch: ";
+            cin >> ind1;
+        }
+
+        if (playerPool[player][ind1] != '-')
+        { //No invalid chips.
+            int index = rand() % bagSize;
+            playerPool[player][ind1] = letterBag[index];
+            letterBag.erase(letterBag.begin() + index);
+            printPool(player);
+        }
+        else
+        {
+            cout << "Invalid chip. No chip switching for you!" << endl;
+        }
+
+        cout << endl;
+    }
+    else
+    {
+        cout << "The pool is empty. The game will end after this turn!" << endl;
+        cout << "Play your chips, if you can. Otherwise, do an invalid play!" << endl;
+    }
 }
 
 void Game::exchangeChips(int player)
 {
-    srand(time(NULL));
-    int ind1, ind2; //Index of the chip to switch in the playerPool.
-    cout << "Hey, player " << player + 1 << ". Let's do some chip switchin', shall we?" << endl;
-    cout << "NOTE: You cannot exchange an invalid/empty chip (it's represented as a -)." << endl;
-    cout << "Below, is your letter pool." << endl;
-    printPool(player);
-    cout << endl;
-    cout << "Input the indexes of the chips you wish to switch (put a space between them!): ";
-    cin >> ind1 >> ind2;
-    while (cin.fail())
+    int bagSize = letterBag.size();
+    if (bagSize >= 2)
     {
+        int ind1, ind2; //Index of the chip to switch in the playerPool.
+        cout << "Hey, player " << player + 1 << ". Let's do some chip switchin', shall we?" << endl;
+        cout << "NOTE: You cannot exchange an invalid/empty chip (it's represented as a -)." << endl;
+        cout << "Below, is your letter pool." << endl;
+        printPool(player);
+        cout << endl;
         cout << "Input the indexes of the chips you wish to switch (put a space between them!): ";
         cin >> ind1 >> ind2;
-    }
+        while (cin.fail())
+        {
+            cout << "Input the indexes of the chips you wish to switch (put a space between them!): ";
+            cin >> ind1 >> ind2;
+        }
 
-    int index = rand() % bagSize;
-    playerPool[player][ind1] = letterBag[index];
-    index = rand() % bagSize;
-    playerPool[player][ind2] = letterBag[index];
-    printPool(player);
-    cout << endl;
+        if ((playerPool[player][ind1] != '-') && (playerPool[player][ind2] != '-'))
+        {                                                //1 invalid chip = no switches.
+            int index = rand() % bagSize;                //get index
+            playerPool[player][ind1] = letterBag[index]; //give new letter
+            letterBag.erase(letterBag.begin() + index);  //delete from pool
+
+            index = rand() % (bagSize - 1); //repeat
+            playerPool[player][ind2] = letterBag[index];
+            letterBag.erase(letterBag.begin() + index);
+
+            //and let the player see his new pool!
+            printPool(player);
+        }
+        else
+        {
+            cout << "You can't exchange invalid (-) chips. No switching for you!" << endl;
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "It's not possible to exchange 2 chips." << endl;
+        cout << "Play the chips you have, if you can. Otherwise, do an invalid play!" << endl;
+    }
 }
 
 void Game::checkCapture(string word, int player)
@@ -192,7 +237,8 @@ int Game::findIndex(vector<string> &vect, string &findee)
     int bottom = 0;
     int top = vect.size() - 1;
     int middle;
-    while (bottom <= top){
+    while (bottom <= top)
+    {
         middle = (bottom + top) / 2;
         if (vect[middle] > findee)
         {
@@ -203,7 +249,7 @@ int Game::findIndex(vector<string> &vect, string &findee)
             bottom = middle + 1;
         }
         else
-        { 
+        {
             return middle;
         }
     }
@@ -340,40 +386,49 @@ void Game::game(Board &board, int &players, vector<int> &scoreBoard)
             makePlay(i, plays);
             printBoard();
 
-            if (boardWords.size() == 0)
+            if ((boardWords.size() == 0) || (letterBag.size() == 0))
             {
                 end = true;
                 break;
             }
         }
-
     }
 }
 
-void Game::declareWinner(){
+void Game::declareWinner()
+{
     int max = *max_element(scoreBoard.begin(), scoreBoard.end());
     vector<int> winners;
 
-    for (int i = 0; i < scoreBoard.size(); i++){
-        if (scoreBoard[i] == max){
+    for (int i = 0; i < scoreBoard.size(); i++)
+    {
+        if (scoreBoard[i] == max)
+        {
             winners.push_back(i);
         }
     }
 
-    if (winners.size() != 1){
+    if (winners.size() != 1)
+    {
         cout << "Congratulations, Players ";
-        for (int j = 0; j < winners.size(); j++){
-            if (j == winners.size()-2){
+        for (int j = 0; j < winners.size(); j++)
+        {
+            if (j == winners.size() - 2)
+            {
                 cout << winners[j] + 1 << " and ";
                 continue;
-            } else if (j == winners.size() - 1){
+            }
+            else if (j == winners.size() - 1)
+            {
                 cout << winners[j] + 1;
                 continue;
             }
             cout << j + 1 << ", ";
         }
         cout << ", you're all winners!" << endl;
-    } else {
+    }
+    else
+    {
         cout << "Congratulations, Player " << winners[0] + 1 << ", you're the winner!" << endl;
     }
 }
