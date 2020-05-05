@@ -48,13 +48,17 @@ vector<vector<Info>> Board::boardBuilder(string name){
     file.open(name); //Opening the file
     
     //Checking if the file was, in fact, opened.
-    if (!file){
-        cerr << "You didn't specify an existing board.";
-    } else {
-        getline(file, fileLine);
-        filestr << fileLine; //Passing all file contents to a stringstream;
-        filestr >> x >> separator >> y;
+     while(!file){
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "Input a valid board name: ";
+        cin >> name;
     }
+    
+    file.open(name);
+    getline(file, fileLine);
+    filestr << fileLine; //Passing all file contents to a stringstream;
+    filestr >> x >> separator >> y;
 
     while (!file.eof()){
         getline(file, fileLine);
