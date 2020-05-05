@@ -369,7 +369,7 @@ void Game::execute()
 void Game::printBoard() const
 {
     static int size = vectorBoard.size();
-    //setColorNormal();
+    setColorNormal();
     std::cout << "  ";
     for (int i = 0; i < size; i++)
     {
@@ -379,12 +379,12 @@ void Game::printBoard() const
 
     for (int i = 0; i < size; i++)
     {
-        //setColorNormal();
+        setColorNormal();
         std::cout << char(ASCII_A + i);
-        //setColorBoard();
+        setColorBoard();
         for (int j = 0; j < size; j++)
         {
-            //setColorNotCaptured();
+            setColorNotCaptured();
             if (vectorBoard[i][j].state == true)
             {
                 //setColorCaptured();
@@ -394,7 +394,7 @@ void Game::printBoard() const
         }
         std::cout << '\n';
     }
-    //setColorNormal();
+    setColorNormal();
 }
 
 // Set text color
