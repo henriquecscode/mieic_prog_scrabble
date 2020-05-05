@@ -41,6 +41,7 @@ void Game::prepGame(Board &board)
     vector<string> vecWo = board.getWords();
     sort(vecWo.begin(), vecWo.end());
     boardWords = vecWo;
+    int letterCount;
 
     for (int i = 0; i < boardWords.size(); i++)
     {
@@ -50,16 +51,30 @@ void Game::prepGame(Board &board)
         }
     }
 
-    //From here we create the vector with all characters.
-    letterBag.assign(lBagSet.begin(), lBagSet.end());
-    bagSize = letterBag.size();
+    bagSize = lBagSet.size();
+    vector<char> bag;
+    bag.assign(lBagSet.begin(), lBagSet.end());
 
+    for (int i = 0; i < vectorBoard.size(); i++){
+        for (int j = 0; j < vectorBoard[i].size(); j++){
+            if (vectorBoard[i][j].letter != ' '){
+                letterCount++; //contagem do número de letras;
+            }
+        }
+    }
+
+    for (int k = 0; k < letterCount; k++){
+        int index = rand() % bagSize;
+        letterBag.push_back(bag[index]); //this creates a pool with letterCount number of letters;
+    }
+    
     for (int i = 0; i < players; i++)
     {
         for (int j = 0; j < 7; j++)
         {
             int index = rand() % bagSize;
             playerPool[i].push_back(letterBag[index]);
+            letterBag.erase(letterBag.begin()+index);
         }
     }
     printBoard();
