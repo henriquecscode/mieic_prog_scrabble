@@ -3,6 +3,7 @@ using namespace std;
 
 void Game::beginningInstructions()
 {
+    setColorNormal();
     //Let's just start with some information for the players.
     cout << "Hi, welcome to SCRABBLE JUNIOR!" << endl;
     cout << "In this game, you'll have a board with words to fill, letter by letter." << endl;
@@ -173,7 +174,8 @@ int Game::findIndex(vector<string> cordList, string cord)
     int bottom = 0;
     int top = cordList.size() - 1;
     int middle;
-    while (bottom <= top){
+    while (bottom <= top)
+    {
         middle = (bottom + top) / 2;
         if (cordList[middle] > cord)
         {
@@ -184,7 +186,7 @@ int Game::findIndex(vector<string> cordList, string cord)
             bottom = middle + 1;
         }
         else
-        { 
+        {
             return middle;
         }
     }
@@ -326,27 +328,34 @@ void Game::game(Board &board, int &players, vector<int> &scoreBoard)
                 end = true;
             }
         }
-
     }
 }
 
-void Game::declareWinner(){
+void Game::declareWinner()
+{
     int max = *max_element(scoreBoard.begin(), scoreBoard.end());
     vector<int> winners;
 
-    for (int i = 0; i < scoreBoard.size(); i++){
-        if (scoreBoard[i] == max){
+    for (int i = 0; i < scoreBoard.size(); i++)
+    {
+        if (scoreBoard[i] == max)
+        {
             winners.push_back(i);
         }
     }
 
-    if (winners.size() != 1){
+    if (winners.size() != 1)
+    {
         cout << "Congratulations, Players ";
-        for (int j = 0; j < winners.size(); j++){
-            if (j == winners.size()-2){
+        for (int j = 0; j < winners.size(); j++)
+        {
+            if (j == winners.size() - 2)
+            {
                 cout << winners[j] + 1 << " and ";
                 continue;
-            } else if (j == winners.size() - 1){
+            }
+            else if (j == winners.size() - 1)
+            {
                 cout << winners[j] + 1;
                 continue;
             }
@@ -380,14 +389,14 @@ void Game::printBoard() const
     for (int i = 0; i < size; i++)
     {
         setColorNormal();
-        std::cout << char(ASCII_A + i);
+        std::cout << std::setw(2) << char(ASCII_A + i);
         setColorBoard();
         for (int j = 0; j < size; j++)
         {
             setColorNotCaptured();
             if (vectorBoard[i][j].state == true)
             {
-                //setColorCaptured();
+                setColorCaptured();
             }
             std::cout << std::setw(2);
             std::cout << vectorBoard[i][j].letter;
@@ -409,11 +418,8 @@ void Game::setcolor(unsigned int color) const
 void Game::setcolor(unsigned int color, unsigned int background_color) const
 {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (background_color == BLACK)
-        SetConsoleTextAttribute(hCon, color);
-    else
-        SetConsoleTextAttribute(hCon, color | BACKGROUND_BLUE | BACKGROUND_GREEN |
-                                          BACKGROUND_RED);
+    unsigned int final_color = color + background_color * 16;
+    SetConsoleTextAttribute(hCon, final_color);
 }
 void Game::setColorNormal() const
 {
@@ -427,12 +433,12 @@ void Game::setColorBoard() const
 
 void Game::setColorCaptured() const
 {
-    setcolor(RED);
+    setcolor(RED, LIGHTGRAY);
 }
 
 void Game::setColorNotCaptured() const
 {
-    setcolor(BLACK);
+    setcolor(BLACK, LIGHTGRAY);
 }
 
 int main()
