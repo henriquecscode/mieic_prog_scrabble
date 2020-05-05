@@ -39,7 +39,7 @@ public:
     void printPool(int player);
     void checkPool(int player);
     void checkWords(Info &letter, int player, string play);
-    int findIndex(vector<string> cordList, string cord);
+    int findIndex(vector<string> &vect, string &findee);
     void checkCapture(string word, int player);
     void makePlay(int player, pair<string, string> plays);
     pair<string, string> getPlay(int player);

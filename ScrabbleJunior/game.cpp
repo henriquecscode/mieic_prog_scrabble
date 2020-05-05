@@ -3,8 +3,9 @@ using namespace std;
 
 void Game::beginningInstructions()
 {
-    setColorNormal();
     //Let's just start with some information for the players.
+    setColorNormal();
+    
     cout << "Hi, welcome to SCRABBLE JUNIOR!" << endl;
     cout << "In this game, you'll have a board with words to fill, letter by letter." << endl;
     cout << "Each finished turn may award you with 1 to 2 points (depending on the number of words completed in that turn)." << endl;
@@ -38,7 +39,9 @@ void Game::prepGame(Board &board)
     //Getting all letters in a set so we can create a pool for each player.
     set<char> lBagSet;
     vector<string> vecWo = board.getWords();
+    sort(vecWo.begin(), vecWo.end());
     boardWords = vecWo;
+
     for (int i = 0; i < boardWords.size(); i++)
     {
         for (int j = 0; j < boardWords[i].size(); j++)
@@ -59,7 +62,6 @@ void Game::prepGame(Board &board)
             playerPool[i].push_back(letterBag[index]);
         }
     }
-
     printBoard();
 }
 
@@ -164,29 +166,29 @@ void Game::checkCapture(string word, int player)
     if (a.size() == 0)
     {
         scoreBoard[player]++;
-        int index = findIndex(boardWords, word);
+        int index = 0;
+        index = findIndex(boardWords, word);
         boardWords.erase(boardWords.begin() + index);
     }
 }
 
-int Game::findIndex(vector<string> cordList, string cord)
+int Game::findIndex(vector<string> &vect, string &findee)
 {
     int bottom = 0;
-    int top = cordList.size() - 1;
+    int top = vect.size() - 1;
     int middle;
-    while (bottom <= top)
-    {
+    while (bottom <= top){
         middle = (bottom + top) / 2;
-        if (cordList[middle] > cord)
+        if (vect[middle] > findee)
         {
             top = middle - 1;
         }
-        else if (cordList[middle] < cord)
+        else if (vect[middle] < findee)
         {
             bottom = middle + 1;
         }
         else
-        {
+        { 
             return middle;
         }
     }
@@ -250,7 +252,7 @@ void Game::checkWords(Info &letter, int player, string play)
             else
             {
                 letter.state = false;
-                cout << "You can't capture that letter, Player " << player + 1 << ". You have to do it in order!" << endl;
+                cout << "You can't capture that letter (" << play << "), Player " << player + 1 << ". You have to do it in order!" << endl;
             }
         }
     }
@@ -326,44 +328,39 @@ void Game::game(Board &board, int &players, vector<int> &scoreBoard)
             if (boardWords.size() == 0)
             {
                 end = true;
+                break;
             }
         }
+
     }
 }
 
-void Game::declareWinner()
-{
+void Game::declareWinner(){
     int max = *max_element(scoreBoard.begin(), scoreBoard.end());
     vector<int> winners;
 
-    for (int i = 0; i < scoreBoard.size(); i++)
-    {
-        if (scoreBoard[i] == max)
-        {
+    for (int i = 0; i < scoreBoard.size(); i++){
+        if (scoreBoard[i] == max){
             winners.push_back(i);
         }
     }
 
-    if (winners.size() != 1)
-    {
+    if (winners.size() != 1){
         cout << "Congratulations, Players ";
-        for (int j = 0; j < winners.size(); j++)
-        {
-            if (j == winners.size() - 2)
-            {
+        for (int j = 0; j < winners.size(); j++){
+            if (j == winners.size()-2){
                 cout << winners[j] + 1 << " and ";
                 continue;
-            }
-            else if (j == winners.size() - 1)
-            {
+            } else if (j == winners.size() - 1){
                 cout << winners[j] + 1;
                 continue;
             }
             cout << j + 1 << ", ";
         }
         cout << ", you're all winners!" << endl;
+    } else {
+        cout << "Congratulations, Player " << winners[0] + 1 << ", you're the winner!" << endl;
     }
-    cout << "Congratulations, Player " << *max_element(scoreBoard.begin(), scoreBoard.end()) + 1 << ", you're the winner!" << endl;
 }
 
 void Game::execute()
