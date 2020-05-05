@@ -37,10 +37,10 @@ void Game::prepGame(Board &board)
     cout << "Number of players: ";
     cin >> playerCount; //And number of players.
 
-    while((cin.fail()) || (playerCount > 4)){
+    while((cin.fail()) || (playerCount > 4) || (playerCount < 2)){
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "Input a valid number of players (max: 4): ";
+        cout << "Input a valid number of players (max: 4, min: 2): ";
         cin >> playerCount;
     }
 
