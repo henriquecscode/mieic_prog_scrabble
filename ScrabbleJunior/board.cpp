@@ -37,34 +37,41 @@ void Board::setWord(vector<vector<Info>> &vectorBoard, string coordinates, char 
     }
 }
 
-vector<vector<Info>> Board::boardBuilder(string name){
-    string line;
+vector<vector<Info>> Board::boardBuilder(){
+    string fileLine, boardName;
     ifstream file; //File variable;
     stringstream filestr; //b
     int x, y; //Respectively, vertical and horizontal dimensions;
     char separator;
 
+    cout << "Please input the name of the board (include the file extension .txt): ";
+    cin >> boardName; //Getting the board name.
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    file.open(boardName);
 
-    file.open(name); //Opening the file
-    
-    //Checking if the file was, in fact, opened.
-     while(!file){
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "Input a valid board name: ";
-        cin >> name;
+    while (true){
+        if (file.is_open())
+        {
+            break;
+        } else {
+            cout << "Input a valid board name: ";
+            cin >> boardName;
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            file.open(boardName);
+        }
     }
-    
-    file.open(name);
-    getline(file, line, '\n');
-    filestr << line; //Passing all line contents to a stringstream;
+
+    getline(file, fileLine);
+    filestr << fileLine; //Passing all file contents to a stringstream;
     filestr >> x >> separator >> y;
 
     while (!file.eof()){
-        getline(file, line);
-        locations.push_back(line.substr(0, 2));
-        orientations.push_back(line.at(3));
-        words.push_back(line.substr(5, line.size()-1));
+        getline(file, fileLine);
+        locations.push_back(fileLine.substr(0, 2));
+        orientations.push_back(fileLine.at(3));
+        words.push_back(fileLine.substr(5, fileLine.size()-1));
     }
 
     //Time to actually form the board.
@@ -91,5 +98,5 @@ vector<vector<Info>> Board::boardBuilder(string name){
     string name = "BOARD.txt";
     Board board;
     board.boardBuilder(name);
-}*/
 
+}*/

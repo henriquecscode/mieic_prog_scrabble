@@ -17,7 +17,7 @@ typedef struct // Cria uma STRUCT para armazenar os dados de uma letra.
 
 class Board{
     public:
-        vector<vector<Info>> boardBuilder(string name);
+        vector<vector<Info>> boardBuilder();
         void setWord(vector<vector<Info>> &vectorBoard, string coordinates, char orientation, string word);
         vector<string> getWords() const;
         map<string, vector<string>> getWordData() const;

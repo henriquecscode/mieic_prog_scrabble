@@ -11,6 +11,8 @@
 #include <cstdlib>
 #include <windows.h>
 #include <iomanip>
+#include <stdio.h>
+#include <ctype.h>
 
 #include <bits/stdc++.h> // To remove later
 #include "board.h"
@@ -37,8 +39,9 @@ class Game
 {
 public:
     void beginningInstructions();
-    int getIndex();
+    int getIndex(int size);
     void game(Board &board, vector<Player> &players);
+    void checkPlays(string &p1, string &p2);
     void prepGame(Board &board);
     void executePlay(string play, Player &player);
     void getNewPool(Player &player);

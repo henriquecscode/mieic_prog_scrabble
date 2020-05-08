@@ -1,10 +1,29 @@
 #include "game.h"
 using namespace std;
 
-int Game::getIndex()
+int Game::getIndex(int size)
 {
-    int size = letterBag.size();
-    return rand() % size;
+    static srand(time(NULL));
+    int result = rand() % size;
+    return result;
+}
+
+void Game::checkPlays(string &p1, string &p2){
+    if (isupper(p1[1])){
+        p1[1] = p1[1] + 32;
+    }
+
+    if (isupper(p2[1])){
+        p2[1] = p2[1] + 32;
+    }
+
+    if (islower(p1[0])){
+        p1[0] = p1[0] - 32;
+    }
+
+    if (islower(p2[0])){
+        p2[0] = p2[0] - 32;
+    }
 }
 
 void Game::beginningInstructions()
@@ -31,16 +50,9 @@ void Game::beginningInstructions()
 void Game::prepGame(Board &board)
 {
     srand(time(NULL));
-    cout << "So now, please input the name of the board (include the file extension .txt): ";
-    cin >> boardName; //Getting the board name.
-
-    while (cin.fail())
-    {
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "Input a valid board name: ";
-        cin >> boardName;
-    }
+    vector<vector<Info>> vecBo = board.boardBuilder();
+    vectorBoard = vecBo; //We create the actual board;
+    wordData = board.getWordData();
 
     cout << "Number of players: ";
     cin >> playerCount; //And number of players.
@@ -68,10 +80,6 @@ void Game::prepGame(Board &board)
             cin >> players[i].name;
         }
     }
-
-    vector<vector<Info>> vecBo = board.boardBuilder(boardName);
-    vectorBoard = vecBo; //We create the actual board;
-    wordData = board.getWordData();
 
     //Getting all letters in a set so we can create a pool for each player.
     set<char> lBagSet;
@@ -105,7 +113,7 @@ void Game::prepGame(Board &board)
     int bagSize = bag.size();
     for (int k = 0; k < letterCount; k++)
     {
-        int index = getIndex();
+        int index = getIndex(bagSize);
         letterBag.push_back(bag[index]); //this creates a pool with letterCount number of letters;
     }
 
@@ -113,7 +121,7 @@ void Game::prepGame(Board &board)
     {
         for (int j = 0; j < 7; j++)
         {
-            int index = getIndex();
+            int index = getIndex(letterBag.size());
             players[i].pool.push_back(letterBag[index]);
             letterBag.erase(letterBag.begin() + index);
         }
@@ -129,7 +137,7 @@ void Game::getNewPool(Player &player)
     {
         for (int j = 0; j <= 6; j++)
         {
-            int index = getIndex();
+            int index = getIndex(letterBag.size());
             player.pool[j] = letterBag[index];
             letterBag.erase(letterBag.begin() + index);
         }
@@ -220,6 +228,7 @@ pair<string, string> Game::getPlay(Player &player)
         }
     }
 
+    checkPlays(play1, play2);
     return make_pair(play1, play2);
 }
 
@@ -248,7 +257,7 @@ void Game::exchangeChip(Player &player)
 
         if (player.pool[ind1] != '-')
         { //No invalid chips.
-            int index = getIndex();
+            int index = getIndex(letterBag.size());
             player.pool[ind1] = letterBag[index];
             letterBag.erase(letterBag.begin() + index);
             printPool(player);
@@ -291,11 +300,11 @@ void Game::exchangeChips(Player &player)
 
         if ((player.pool[ind1] != '-') && (player.pool[ind2] != '-'))
         {                                               //1 invalid chip = no switches.
-            int index = getIndex();                     //get index
+            int index = getIndex(letterBag.size());                     //get index
             player.pool[ind1] = letterBag[index];       //give new letter
             letterBag.erase(letterBag.begin() + index); //delete from pool
 
-            index = getIndex(); //repeat
+            index = getIndex(letterBag.size()); //repeat
             player.pool[ind2] = letterBag[index];
             letterBag.erase(letterBag.begin() + index);
 
@@ -421,7 +430,7 @@ void Game::captureLetter(Info &letter, Player &player, string play)
         letter.state = true;
         checkWords(letter, player, play);
     }
-    else
+    else if ((find(player.pool.begin(), player.pool.end(), letter.letter) == player.pool.end()) || (letter.state != false) || (letter.letter == ' '))
     {
         cout << "That wasn't a valid play, " << player.name << ". No capturing for you!" << endl;
     }
@@ -434,23 +443,23 @@ void Game::makePlay(Player &player, pair<string, string> plays)
     while (true)
     {
         //Let's start by checking if the player wants to do any switching.
-        if (((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ")) && ((plays.second == "Zz") || (plays.second == "ZZ") || (plays.second == "zz") || (plays.second == "zZ")))
+        if ((plays.first == "Zz") && (plays.second == "Zz"))
         {
             exchangeChips(player);
             p1 = false;
             p2 = false;
         }
-        else if ((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ"))
+        else if (plays.first == "Zz")
         { //Checking if we have a "I need new chips" situation;
             exchangeChip(player);
             p1 = false;
         }
-        else if ((plays.second == "Zz") || (plays.second == "ZZ") || (plays.second == "zz") || (plays.second == "zZ"))
+        else if (plays.second == "Zz")
         {
             exchangeChip(player);
             p2 = false;
         }
-        else if ((plays.second == "Uu") && ((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ")))
+        else if ((plays.second == "Uu") && (plays.first == "Zz"))
         {
             p2 = false;
             exchangeChip(player);
@@ -592,12 +601,14 @@ void Game::setcolor(unsigned int color) const
 
 //==========================================================================================
 // Set text color & background
+
 void Game::setcolor(unsigned int color, unsigned int background_color) const
 {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     unsigned int final_color = color + background_color * 16;
     SetConsoleTextAttribute(hCon, final_color);
 }
+
 void Game::setColorNormal() const
 {
     setcolor(WHITE, BLACK);
