@@ -79,9 +79,9 @@ If he inputs any other position, any switching will be COMPLETELY invalidated - 
 <p align="justify">
 Whenever the letter pool (which will be constantly updated) is empty or (by some extreme luck) you capture all words in a board, the game will declare a winner. 
 </p>
-> Are there any special cases a player should know about?
-  <p align="justify">
-  When those cases arise, the game will tell the player what he should do. Most of the times, it's boils down to having to forcefully make an invalid play, since this is a mostly neutral action in a game - the only punish for invalid plays is a simple warning that the play was, in fact, invalid. This means that when you do it <em>on purpose</em>, there's nothing to lose from it, it's just a way to move to the next turn until the game can actually do what it should!
+>Are there any special cases a player should know about?
+<p align="justify">
+When those cases arise, the game will tell the player what he should do. Most of the times, it's boils down to having to forcefully make an invalid play, since this is a mostly neutral action in a game - the only punish for invalid plays is a simple warning that the play was, in fact, invalid. This means that when you do it <em>on purpose</em>, there's nothing to lose from it, it's just a way to move to the next turn until the game can actually do what it should!
 </p>
 
 ## Choices we made
