@@ -1,14 +1,14 @@
 # Scrabble Junior + Board Builder
 
 <p align="justify">
-Scrabble Junior is a game all about capturing letters and getting points in a big board filled with intersecting words. Don't like standard boards? Don't worry, we got you covered with our Board Builder, which you can use to create board files (in .txt) with words as complicated as you like that you can use later to play the game with a max. of 4 players! Be attentive, play your chips right and you will be the one who comes out on top!
+Scrabble Junior is a game all about capturing letters and getting points in a big board filled with intersecting words. Don't like standard boards? Don't worry, we got you covered with our Board Builder, which you can use to create board files with words as complicated as you like to have the most fun you can with a max. of 4 players. Be attentive, play your chips right and you will be the one who comes out on top!
 </p>
 
 ## Installation
 
 <p align="justify">
-With the game, we already provide a pair of .exe files which one can easily open to play the game, along with a simple standard board so you can get yourself used to playing! To jump in and play, the "BOARD.txt" file should ALWAYS be in the same folder as the "main.exe" file!
-The Board Builder will create its board files and save him in the same folder its executable is in!
+With the game, we already provide a pair of .exe files which one can easily open to play the game, along with a simple standard board so you can get yourself used to playing! To jump in and play, the BOARD file you intend to use for playing should ALWAYS be in the same folder as the "main.exe" file!
+The Board Builder will create its board files and save them in the same folder its executable is in!
 </p>
 
 ## Rules
@@ -17,7 +17,12 @@ The Board Builder will create its board files and save him in the same folder it
 <p align="justify">
 Welcome to SCRABBLE JUNIOR, a game where your main objective is to fill words placed in a board, letter by letter, in an orderly fashion - what do we mean by this? You can only place a chip in a letter that's:<ul>
 <li>not captured (a captured letter will be shown in RED);</li>
-<li>the first uncaptured letter in a word.</li></ul>Each player will be assigned 7 chips at the beginning of the game, and you'll be able to switch chips as you please, but let's start with the basics: look the screenshot below.
+<li>the first uncaptured letter in a word.</li></ul>
+</p>
+
+### How to Play
+<p align="justify">
+Each player will be assigned 7 chips at the beginning of the game, and you'll be able to switch chips as you please, but let's start with the basics: look the screenshot below.
 </p>
 
 <p align="center">
@@ -33,13 +38,13 @@ As you can see, Player1 can capture both the F (of FRUIT) and the M (of MUSIC) i
 </p>
 
 <p align="justify">
-Now, imagining Player2 has chips to do so for the sake of this explanation, he intends to keep capturing letters from the words FRUIT and MUSIC. He only wants to play one chip, so let's think what can he do: he can either capture the R (Bb) from FRUIT or the U (Cb) from MUSIC. Depending on his/her/their strategy, one might be more ideal:
+Now, imagining Player2 has chips to do so for the sake of this explanation, he intends to keep capturing letters from the words FRUIT and MUSIC. He only wants to play one chip, though, so let's think about what can he do: he can either capture the R (Bb) from FRUIT or the U (Cb) from MUSIC. Depending on his/her/their strategy, one might be more ideal:
 <ul>
 <li>if he captures the R, he'll be able to then capture the shared U without any problems;</li>
 <li>if he captures the U first, he'll only be able to capture the I from FRUIT after he captures its R;</li></ul>
 <p align="justify">
-This is the orderly principle we mentioned before. This way, it's a more fair experience, since chips are randomly assigned!
-Whatever he plays, it's not our business, but you do want to know how to exchange chips, right? You can either exchange 1 or 2 chips at a time, and this counts as a full turn: you won't be able to play your new chips until your opponents have a turn first. One player turn consists of 2 plays: an invalid play would be a coordinate of a captured letter or just an empty space of the board, but these <strong>DO NOT INVALIDATE</strong> other valid plays (as long as you're doing a valid play, it'll be counted).
+  This the long version of the <em>orderly fashion</em> we mentioned before. This way, it's a fair experience, since chips are randomly assigned!
+Whatever Player2 decides to do, it's not our business, though. One player turn consists of 2 plays: an invalid play would be a coordinate of a captured letter or just an empty space of the board, but these <strong>DO NOT INVALIDATE</strong> other valid plays (as long as you're doing a valid play, it'll be counted). Yes, you can capture 2 letters from the same word in the same turn (<em>back to back</em>), but you need to input the coordinates in the correct order!
 </p>
 
 ### Getting Points
@@ -53,7 +58,7 @@ Points are only given by words completed - you will only get a point if you capt
 
 ### Exchanging Chips
 <p align="justify">
-To exchange a chip, one of your plays should be Zz. To exchange two, both plays need to be Zz. Chip switching is limited by three factors alone: invalid chips, the letter pool and your concentration.
+You can either exchange 1 or 2 chips at a time, and this counts as a full turn: you won't be able to play your new chips until your opponents have a turn first. To exchange a chip, one of your plays should be Zz. To exchange two, both plays need to be Zz. Chip switching is limited by three factors alone: invalid chips, the letter pool and your concentration.
 </p>
 
 <p align="center">
@@ -61,10 +66,8 @@ To exchange a chip, one of your plays should be Zz. To exchange two, both plays 
 </p>
 
 <p align="justify">
-Player1 decided to exchange 2 chips: he is immediately warned about the letter pool before each play, so he knows he can exchange 2 chips without a problem. When the letter pool is empty (0 letters), the game will declare a winner automatically. Right after, his pool is printed again so he can be reminded of his chips - he can exchange chips in positions 1, 2, 3, 5 and 6.
-If he inputs any other position, any switching will be COMPLETELY invalidated - this is the game punishing you for not paying attention, so always be calm about exchanging chips, we wouldn't want you to lose a letter you actually need or to waste a turn!
-Other than this, the game will also declare a winner if, by some insane amount of luck, all words are captured.
-Some more intricate cases are also contemplated, and the game will let you know what to do whenever they're appliable!
+Player1 decided to exchange 2 chips: he is immediately warned about the letter pool before each play, so he knows he can exchange 2 chips without a problem. When the letter pool is empty (0 letters), exchanging chips becomes impossible. To help him choose which chips to switch, his/her/their pool is printed again - he can exchange chips in positions 1, 2, 3, 5 and 6.
+If he inputs any other position, any switching will be COMPLETELY invalidated - this is the game punishing you for not paying attention, so always be calm about exchanging chips, we wouldn't want you to lose a letter you actually need or to waste a precious turn!
 </p>
 
 ## FAQ
@@ -76,11 +79,12 @@ Some more intricate cases are also contemplated, and the game will let you know 
 <p align="justify">
 Whenever the letter pool (which will be constantly updated) is empty or (by some extreme luck) you capture all words in a board, the game will declare a winner. 
 </p>
-> Can I know my score?
-<p align="justify">
-  Check the <em>Getting Points> subsection in <strong>Rules</strong>. Did you do it? Great. Then now you know how to keep track of your points. Obviously, the game also does this for you, but, in the name of suspense and in order for the players to pay attention to what they're doing and thus devise an optimal strategy for themselves, who's winning when the game declares the winner(s).
+> Are there any special cases a player should know about?
+  <p align="justify">
+  When those cases arise, the game will tell the player what he should do. Most of the times, it's boils down to having to forcefully make an invalid play, since this is a mostly neutral action in a game - the only punish for invalid plays is a simple warning that the play was, in fact, invalid. This means that when you do it <em>on purpose</em>, there's nothing to lose from it, it's just a way to move to the next turn until the game can actually do what it should!
 </p>
 
-## E
-[MIT](https://choosealicense.com/licenses/mit/)
-</div>
+## Choices we made
+<ul>
+<li>A player cannot exchange an invalid (-) chip - should one player try it, their turn will immediately end;</li>
+<li></li></ul>
