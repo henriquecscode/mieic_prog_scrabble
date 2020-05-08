@@ -43,7 +43,6 @@ Whatever he plays, it's not our business, but you do want to know how to exchang
 </p>
 
 ### Getting Points
-
 <p align="justify">
 Points are only given by words completed - you will only get a point if you capture the last letter of a word. Of course, if you finish more than one word at once, you'll get multiple points!
 </p>
@@ -55,7 +54,8 @@ Points are only given by words completed - you will only get a point if you capt
 ### Exchanging Chips
 <p align="justify">
 To exchange a chip, one of your plays should be Zz. To exchange two, both plays need to be Zz. Chip switching is limited by three factors alone: invalid chips, the letter pool and your concentration.
-</p> <br/>
+</p>
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/64466406/81389700-27b78980-9112-11ea-9b06-62ae8b221a55.png">
 </p>
@@ -67,21 +67,20 @@ Other than this, the game will also declare a winner if, by some insane amount o
 Some more intricate cases are also contemplated, and the game will let you know what to do whenever they're appliable!
 </p>
 
-
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
-```
-
 ## FAQ
 > Why can't we choose who gets to play first?
 <p align="justify">
 <em>Scrabble Junior</em> is a luck-based game. This means starting first has no real advantage. If you do wish to choose who plays first, do it before inputting your names when prompted by the game - it will follow the order by which you input said names!
 </p>
+> How can I finish the game?
+<p align="justify">
+Whenever the letter pool (which will be constantly updated) is empty or (by some extreme luck) you capture all words in a board, the game will declare a winner. 
+</p>
+> Can I know my score?
+<p align="justify">
+  Check the <em>Getting Points> subsection in <strong>Rules</strong>. Did you do it? Great. Then now you know how to keep track of your points. Obviously, the game also does this for you, but, in the name of suspense and in order for the players to pay attention to what they're doing and thus devise an optimal strategy for themselves, who's winning when the game declares the winner(s).
+</p>
 
-## License
+## E
 [MIT](https://choosealicense.com/licenses/mit/)
 </div>
