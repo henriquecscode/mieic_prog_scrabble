@@ -6,36 +6,45 @@ Scrabble Junior is a game all about capturing letters and getting points in a bi
 
 ## Installation
 
-<div style="text-align:justify">
+<p align="justify">
 With the game, we already provide a pair of .exe files which one can easily open to play the game, along with a simple standard board so you can get yourself used to playing! To jump in and play, the "BOARD.txt" file should ALWAYS be in the same folder as the "main.exe" file!
 The Board Builder will create its board files and save him in the same folder its executable is in!
-</div>
+</p>
 
 ## Rules
 
-<div style="text-align:justify">
+### Basic Rules
+<p align="justify">
 Welcome to SCRABBLE JUNIOR, a game where your main objective is to fill words placed in a board, letter by letter, in an orderly fashion - what do we mean by this? You can only place a chip in a letter that's:<ul>
 <li>not captured (a captured letter will be shown in RED);</li>
 <li>the first uncaptured letter in a word.</li></ul>Each player will be assigned 7 chips at the beginning of the game, and you'll be able to switch chips as you please, but let's start with the basics: look the screenshot below.
-</div>
+</p>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/64466406/81388100-b1b22300-910f-11ea-8054-a6bd9cb36e6c.png">
 </p>
 
-<div style="text-align:justify">
+<p align="justify">
 As you can see, Player1 can capture both the F (of FRUIT) and the M (of MUSIC) in one play, to do so, he inputs the coordinates Ab and Ca. This will take the mentioned letters from his pool, turning them into invalid chips by marking them with a -.
-</div>
+</p>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/64466406/81388458-3ac95a00-9110-11ea-8aae-602e776dddd5.png">
 </p>
 
-<div style="text-align:justify">
-Now, imagining Player2 has chips to do so for the sake of this explanation, he intends to keep capturing letters from the words FRUIT and MUSIC. He only wants to play one chip, so let's think what can he do: he can either capture the R (Bb) from FRUIT or the U (Cb) from MUSIC. Depending on his/her strategy, one might be more ideal. If he captures the R, he'll be able to then capture the shared U without any problems, but if he captures the U first, he'll only be able to capture the I from FRUIT after he captures its R - this is the orderly principle we mentioned before. This way, it's a more fair experience, since chips are randomly assigned!
+<p align="justify">
+Now, imagining Player2 has chips to do so for the sake of this explanation, he intends to keep capturing letters from the words FRUIT and MUSIC. He only wants to play one chip, so let's think what can he do: he can either capture the R (Bb) from FRUIT or the U (Cb) from MUSIC. Depending on his/her/their strategy, one might be more ideal:
+<ul>
+<li>if he captures the R, he'll be able to then capture the shared U without any problems;</li>
+<li>if he captures the U first, he'll only be able to capture the I from FRUIT after he captures its R;</li></ul>
+This is the orderly principle we mentioned before. This way, it's a more fair experience, since chips are randomly assigned!
+Whatever he plays, it's not our business, but you do want to know how to exchange chips, right? You can either exchange 1 or 2 chips at a time, and this counts as a full turn: you won't be able to play your new chips until your opponents have a turn first. One player turn consists of 2 plays: an invalid play would be a coordinate of a captured letter or just an empty space of the board, but these **DO NOT INVALIDATE** other valid plays (as long as you're doing a valid play, it'll be counted).
+</p>
+
+### Getting Points
+<p align="justify">
 Points are only given by words completed - you will only get a point if you capture the last letter of a word. Of course, if you finish more than one word at once, you'll get multiple points!
-Whatever he plays, it's not our business, but you do want to know how to exchange chips, right? You can either exchange 1 or 2 chips at a time, and this counts as a full turn: you won't be able to play your new chips until your opponents have a turn first. One player turn consists of 2 plays: an invalid play would be a coordinate of a captured letter or just an empty space of the board, but these DO NOT INVALIDATE other valid plays (meaning 1 valid play will always be counted).
-</div>
+</p>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/64466406/81389602-035bad00-9112-11ea-8388-7560f0fc2a5a.png">
@@ -63,10 +72,11 @@ foobar.pluralize('goose') # returns 'geese'
 foobar.singularize('phenomena') # returns 'phenomenon'
 ```
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+## FAQ
+> Why can't we choose who gets to play first?
+<p align="justify">
+<em>Scrabble Junior</em> is a luck-based game. This means starting first has no real advantage. If you do wish to choose who plays first, do it before inputting your names when prompted by the game - it will follow the order by which you input said names!
+</p>
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
