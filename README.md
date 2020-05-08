@@ -26,9 +26,9 @@ Each player will be assigned 7 chips at the beginning of the game, and you'll be
 <div style="text-align: justfy">
 As you can see, Player1 can capture both the F (of FRUIT) and the M (of MUSIC) in one play, to do so, he inputs the coordinates Ab and Ca. This will take the mentioned letters from his pool, turning them into invalid chips by marking them with a -.
 </div>
-
+<p align="center">
 ![ex2](https://user-images.githubusercontent.com/64466406/81388458-3ac95a00-9110-11ea-8aae-602e776dddd5.png)
-
+</p>
 <div style="text-align: justfy">
 Now, imagining Player2 has chips to do so for the sake of this explanation, he intends to keep capturing letters from the words FRUIT and MUSIC. He only wants to play one chip, so let's think what can he do: he can either capture the R (Bb) from FRUIT or the U (Cb) from MUSIC. Depending on his/her strategy, one might be more ideal. If he captures the R, he'll be able to then capture the shared U without any problems, but if he captures the U first, he'll only be able to capture the I from FRUIT after he captures its R - this is the orderly principle we mentioned before. This way, it's a more fair experience, since chips are randomly assigned!
 Points are only given by words completed - you will only get a point if you capture the last letter of a word. Of course, if you finish more than one word at once, you'll get multiple points!
