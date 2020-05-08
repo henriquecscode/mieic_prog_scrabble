@@ -38,7 +38,7 @@ void Board::setWord(vector<vector<Info>> &vectorBoard, string coordinates, char 
 }
 
 vector<vector<Info>> Board::boardBuilder(string name){
-    string fileLine;
+    string line;
     ifstream file; //File variable;
     stringstream filestr; //b
     int x, y; //Respectively, vertical and horizontal dimensions;
@@ -56,15 +56,15 @@ vector<vector<Info>> Board::boardBuilder(string name){
     }
     
     file.open(name);
-    getline(file, fileLine);
-    filestr << fileLine; //Passing all line contents to a stringstream;
+    getline(file, line, '\n');
+    filestr << line; //Passing all line contents to a stringstream;
     filestr >> x >> separator >> y;
 
     while (!file.eof()){
-        getline(file, fileLine);
-        locations.push_back(fileLine.substr(0, 2));
-        orientations.push_back(fileLine.at(3));
-        words.push_back(fileLine.substr(5, fileLine.size()-1));
+        getline(file, line);
+        locations.push_back(line.substr(0, 2));
+        orientations.push_back(line.at(3));
+        words.push_back(line.substr(5, line.size()-1));
     }
 
     //Time to actually form the board.
