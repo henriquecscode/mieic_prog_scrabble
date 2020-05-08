@@ -16,8 +16,7 @@ The Board Builder will create its board files and save him in the same folder it
 <div style="text-align:justify">
 Welcome to SCRABBLE JUNIOR, a game where your main objective is to fill words placed in a board, letter by letter, in an orderly fashion - what do we mean by this? You can only place a chip in a letter that's:<ul>
 <li>not captured (a captured letter will be shown in RED);</li>
-<li>the first uncaptured letter in a word.</li></ul>
-Each player will be assigned 7 chips at the beginning of the game, and you'll be able to switch chips as you please, but let's start with the basics: look the screenshot below.
+<li>the first uncaptured letter in a word.</li></ul>Each player will be assigned 7 chips at the beginning of the game, and you'll be able to switch chips as you please, but let's start with the basics: look the screenshot below.
 </div>
 
 <p align="center">
