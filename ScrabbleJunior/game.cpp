@@ -1,6 +1,12 @@
 #include "game.h"
 using namespace std;
 
+int Game::getIndex()
+{
+    int size = letterBag.size();
+    return rand() % size;
+}
+
 void Game::beginningInstructions()
 {
     //Let's just start with some information for the players.
@@ -9,9 +15,10 @@ void Game::beginningInstructions()
     cout << "Hi, welcome to SCRABBLE JUNIOR!" << endl;
     cout << "In this game, you'll have a board with words to fill, letter by letter." << endl;
     cout << "Each finished turn may award you with 1 to 2 points (depending on the number of words completed in that turn)." << endl;
-    cout << "Per turn, you MUST input 2 plays, which only recquires you to input coordinates of non-captured letters." << endl;
+    cout << "Per turn, you MUST input 2 plays, which only recquires you to input coordinates of VALID non-captured letters." << endl;
+    cout << "Always capture letters by order!" << endl;
     cout << "A coordinate is just an uppercase letter (line) followed by a lowercase letter (collumn)." << endl;
-    cout << "If you can only play one letter, you'll get another one from the bag." << endl;
+    cout << "If you can only play one letter, play it and you'll get a new pool from the bag." << endl;
     cout << "If your pool doesn't have any letters you can play, you'll have to swap some of them." << endl;
     cout << "You can only play letters you have in your pool into non-captured spaces of the board" << endl;
     cout << "It's on you to know if you have chips to play or not, so input 'Zz' whenever you wish to exchange chips (max. of 2)." << endl;
@@ -27,7 +34,8 @@ void Game::prepGame(Board &board)
     cout << "So now, please input the name of the board (include the file extension .txt): ";
     cin >> boardName; //Getting the board name.
 
-    while(cin.fail()){
+    while (cin.fail())
+    {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cout << "Input a valid board name: ";
@@ -37,7 +45,8 @@ void Game::prepGame(Board &board)
     cout << "Number of players: ";
     cin >> playerCount; //And number of players.
 
-    while((cin.fail()) || (playerCount > 4) || (playerCount < 2)){
+    while ((cin.fail()) || (playerCount > 4) || (playerCount < 2))
+    {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cout << "Input a valid number of players (max: 4, min: 2): ";
@@ -46,18 +55,19 @@ void Game::prepGame(Board &board)
 
     players.resize(playerCount);
 
-    for (int i = 0; i < playerCount; i++){
+    for (int i = 0; i < playerCount; i++)
+    {
         string name;
         cout << "What's your name, player " << i + 1 << "? ";
         cin >> name;
         players[i].name = name;
 
-        while (cin.fail()){
+        while (cin.fail())
+        {
             cout << "What's your name, player " << i + 1 << "? ";
             cin >> players[i].name;
         }
     }
-
 
     vector<vector<Info>> vecBo = board.boardBuilder(boardName);
     vectorBoard = vecBo; //We create the actual board;
@@ -95,7 +105,7 @@ void Game::prepGame(Board &board)
     int bagSize = bag.size();
     for (int k = 0; k < letterCount; k++)
     {
-        int index = rand() % bagSize;
+        int index = getIndex();
         letterBag.push_back(bag[index]); //this creates a pool with letterCount number of letters;
     }
 
@@ -103,7 +113,7 @@ void Game::prepGame(Board &board)
     {
         for (int j = 0; j < 7; j++)
         {
-            int index = rand() % bag.size();
+            int index = getIndex();
             players[i].pool.push_back(letterBag[index]);
             letterBag.erase(letterBag.begin() + index);
         }
@@ -113,12 +123,33 @@ void Game::prepGame(Board &board)
 
 void Game::getNewPool(Player &player)
 {
-    srand(time(NULL));
-    for (int j = 0; j <= 6; j++)
+
+    char answer;
+    if (letterBag.size() < 7)
     {
-        int index = rand() % letterBag.size();
-        player.pool[j] = letterBag[index];
-        letterBag.erase(letterBag.begin() + index);
+        for (int j = 0; j <= 6; j++)
+        {
+            int index = getIndex();
+            player.pool[j] = letterBag[index];
+            letterBag.erase(letterBag.begin() + index);
+        }
+    }
+    else
+    {
+        cout << "You were supposed to get a new set of chips, but there aren't enough letters left in the pool!";
+        cout << "Would you like to end the game now or go until the automatic END (empty pool) (Y/N)? ";
+        cin >> answer;
+
+        while (cin.fail() || ((answer != 'Y') && (answer != 'y') && (answer != 'N') && (answer != 'n')))
+        {
+            cout << "Couldn't get that! Try again: ";
+            cin >> answer;
+        }
+
+        if ((answer = 'Y') || (answer = 'y'))
+        {
+            end = true;
+        }
     }
 }
 
@@ -144,7 +175,9 @@ void Game::checkPool(Player &player)
     if (count == 6)
     {
         getNewPool(player);
-    } else if (count == 5) {
+    }
+    else if (count == 5)
+    {
         unique = true;
     }
 }
@@ -156,25 +189,30 @@ pair<string, string> Game::getPlay(Player &player)
     cout << "The pool has " << letterBag.size() << " letters, beware of that!" << endl;
     checkPool(player);
     printPool(player);
-    if (unique){
+    if (unique)
+    {
+        unique = false;
         cout << endl;
         cout << "Please input your play: ";
-        cin >> play1
+        cin >> play1;
         play2 = "Uu";
 
-        while(cin.fail()){
+        while (cin.fail())
+        {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cout << "Input a valid play (with letters as coordinates): ";
             cin >> play1;
         }
-        
-    } else {
+    }
+    else
+    {
         cout << endl;
         cout << "Please input your plays: ";
         cin >> play1 >> play2;
 
-        while(cin.fail()){
+        while (cin.fail())
+        {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cout << "Input valid plays (with letters as coordinates): ";
@@ -210,7 +248,7 @@ void Game::exchangeChip(Player &player)
 
         if (player.pool[ind1] != '-')
         { //No invalid chips.
-            int index = rand() % bagSize;
+            int index = getIndex();
             player.pool[ind1] = letterBag[index];
             letterBag.erase(letterBag.begin() + index);
             printPool(player);
@@ -252,12 +290,12 @@ void Game::exchangeChips(Player &player)
         }
 
         if ((player.pool[ind1] != '-') && (player.pool[ind2] != '-'))
-        {                                                //1 invalid chip = no switches.
-            int index = rand() % bagSize;                //get index
-            player.pool[ind1] = letterBag[index]; //give new letter
-            letterBag.erase(letterBag.begin() + index);  //delete from pool
+        {                                               //1 invalid chip = no switches.
+            int index = getIndex();                     //get index
+            player.pool[ind1] = letterBag[index];       //give new letter
+            letterBag.erase(letterBag.begin() + index); //delete from pool
 
-            index = rand() % (bagSize - 1); //repeat
+            index = getIndex(); //repeat
             player.pool[ind2] = letterBag[index];
             letterBag.erase(letterBag.begin() + index);
 
@@ -273,7 +311,7 @@ void Game::exchangeChips(Player &player)
     else
     {
         cout << "It's not possible to exchange 2 chips." << endl;
-        cout << "Play the chips you have, if you can. Otherwise, do an invalid play!" << endl;
+        cout << "Play the chips you have, if you can. Otherwise, do invalid plays!" << endl;
     }
 }
 
@@ -411,10 +449,14 @@ void Game::makePlay(Player &player, pair<string, string> plays)
         {
             exchangeChip(player);
             p2 = false;
-        } else if ((plays.second == "Uu") && ((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ")){
+        }
+        else if ((plays.second == "Uu") && ((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ")))
+        {
             p2 = false;
             exchangeChip(player);
-        } else if ((plays.second = "Uu") && (plays.first != "Zz")) {
+        }
+        else if ((plays.second == "Uu") && (plays.first != "Zz"))
+        {
             p2 = false;
         }
         break;
@@ -437,7 +479,6 @@ void Game::makePlay(Player &player, pair<string, string> plays)
 
 void Game::game(Board &board, vector<Player> &players)
 {
-    bool end = false;
     while (!end)
     {
         for (int i = 0; i < players.size(); i++)
@@ -461,7 +502,8 @@ void Game::declareWinner()
     vector<int> finalScores;
     vector<Player> winners;
 
-    for (int i = 0; i < playerCount; i++){
+    for (int i = 0; i < playerCount; i++)
+    {
         finalScores.push_back(players[i].score);
     }
 
@@ -578,8 +620,11 @@ void Game::setColorNotCaptured() const
 
 int main()
 {
+    char fin;
     Game game;
     game.execute();
+    cout << "Input anything to close the game! " << endl;
+    cin >> fin;
     exit(1);
     return EXIT_SUCCESS;
 }

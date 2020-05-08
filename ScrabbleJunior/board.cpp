@@ -57,7 +57,7 @@ vector<vector<Info>> Board::boardBuilder(string name){
     
     file.open(name);
     getline(file, fileLine);
-    filestr << fileLine; //Passing all file contents to a stringstream;
+    filestr << fileLine; //Passing all line contents to a stringstream;
     filestr >> x >> separator >> y;
 
     while (!file.eof()){
