@@ -22,7 +22,7 @@ Each player will be assigned 7 chips at the beginning of the game, and you'll be
 </div>
 
 <p align="center">
-  <img width="460" height="300" src="https://user-images.githubusercontent.com/64466406/81388100-b1b22300-910f-11ea-8054-a6bd9cb36e6c.png">
+  <img src="https://user-images.githubusercontent.com/64466406/81388100-b1b22300-910f-11ea-8054-a6bd9cb36e6c.png">
 </p>
 
 <div style="text-align: justfy">
@@ -30,7 +30,7 @@ As you can see, Player1 can capture both the F (of FRUIT) and the M (of MUSIC) i
 </div>
 
 <p align="center">
-  <img width="460" height="300" src="https://user-images.githubusercontent.com/64466406/81388458-3ac95a00-9110-11ea-8aae-602e776dddd5.png">
+  <img src="https://user-images.githubusercontent.com/64466406/81388458-3ac95a00-9110-11ea-8aae-602e776dddd5.png">
 </p>
 
 <div style="text-align: justfy">
@@ -40,7 +40,7 @@ Whatever he plays, it's not our business, but you do want to know how to exchang
 </div>
 
 <p align="center">
-  <img width="460" height="300" src="https://user-images.githubusercontent.com/64466406/81389602-035bad00-9112-11ea-8388-7560f0fc2a5a.png">
+  <img src="https://user-images.githubusercontent.com/64466406/81389602-035bad00-9112-11ea-8388-7560f0fc2a5a.png">
 </p>
 
 <div style="text-align: justfy">
@@ -48,7 +48,7 @@ To exchange a chip, one of your plays should be Zz. To exchange two, both plays 
 </div>
 
 <p align="center">
-  <img width="460" height="300" src="https://user-images.githubusercontent.com/64466406/81389700-27b78980-9112-11ea-9b06-62ae8b221a55.png">
+  <img src="https://user-images.githubusercontent.com/64466406/81389700-27b78980-9112-11ea-9b06-62ae8b221a55.png">
 </p>
 
 <div style="text-align: justfy">
