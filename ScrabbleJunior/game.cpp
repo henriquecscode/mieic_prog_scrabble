@@ -197,6 +197,8 @@ pair<string, string> Game::getPlay(Player &player)
     cout << "The pool has " << letterBag.size() << " letters, beware of that!" << endl;
     checkPool(player);
     printPool(player);
+    cout << endl;
+    cout << "Current Score: " << player.score << endl;
     if (unique)
     {
         unique = false;
