@@ -14,8 +14,8 @@ pip install foobar
 ## Rules
 
 Welcome to SCRABBLE JUNIOR, a game where your main objective is to fill words placed in a board, letter by letter, in an orderly fashion - what do we mean by this? You can only place a chip in a letter that's:
-⋅⋅* not captured (a captured letter will be shown in RED);
-⋅⋅* the first uncaptured letter in a word.
+⋅⋅*not captured (a captured letter will be shown in RED);
+⋅⋅*the first uncaptured letter in a word.
 Each player will be assigned 7 chips at the beginning of the game, and you'll be able to switch chips as you please, but let's start with the basics: look the screenshot below.
 ![ex1](https://user-images.githubusercontent.com/64466406/81388100-b1b22300-910f-11ea-8054-a6bd9cb36e6c.png)
 
