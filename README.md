@@ -37,6 +37,7 @@ Now, imagining Player2 has chips to do so for the sake of this explanation, he i
 <ul>
 <li>if he captures the R, he'll be able to then capture the shared U without any problems;</li>
 <li>if he captures the U first, he'll only be able to capture the I from FRUIT after he captures its R;</li></ul>
+<p align="justify">
 This is the orderly principle we mentioned before. This way, it's a more fair experience, since chips are randomly assigned!
 Whatever he plays, it's not our business, but you do want to know how to exchange chips, right? You can either exchange 1 or 2 chips at a time, and this counts as a full turn: you won't be able to play your new chips until your opponents have a turn first. One player turn consists of 2 plays: an invalid play would be a coordinate of a captured letter or just an empty space of the board, but these **DO NOT INVALIDATE** other valid plays (as long as you're doing a valid play, it'll be counted).
 </p>
