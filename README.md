@@ -71,15 +71,15 @@ If he inputs any other position, any switching will be COMPLETELY invalidated - 
 </p>
 
 ## FAQ
-> Why can't we choose who gets to play first?
+> Why can't we choose who gets to play first? <
 <p align="justify">
 <em>Scrabble Junior</em> is a luck-based game. This means starting first has no real advantage. If you do wish to choose who plays first, do it before inputting your names when prompted by the game - it will follow the order by which you input said names!
 </p>
-> How can I finish the game?
+> How can I finish the game? <
 <p align="justify">
 Whenever the letter pool (which will be constantly updated) is empty or (by some extreme luck) you capture all words in a board, the game will declare a winner. 
 </p>
->Are there any special cases a player should know about?
+> Are there any special cases a player should know about? <
 <p align="justify">
 When those cases arise, the game will tell the player what he should do. Most of the times, it's boils down to having to forcefully make an invalid play, since this is a mostly neutral action in a game - the only punish for invalid plays is a simple warning that the play was, in fact, invalid. This means that when you do it <em>on purpose</em>, there's nothing to lose from it, it's just a way to move to the next turn until the game can actually do what it should!
 </p>
