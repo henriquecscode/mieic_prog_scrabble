@@ -1,8 +1,8 @@
 # Scrabble Junior + Board Builder
 
-<div style="text-align:justify">
+<p align="justify">
 Scrabble Junior is a game all about capturing letters and getting points in a big board filled with intersecting words. Don't like standard boards? Don't worry, we got you covered with our Board Builder, which you can use to create board files (in .txt) with words as complicated as you like that you can use later to play the game with a max. of 4 players! Be attentive, play your chips right and you will be the one who comes out on top!
-</div>
+</p>
 
 ## Installation
 
