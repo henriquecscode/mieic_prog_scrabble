@@ -144,6 +144,8 @@ void Game::checkPool(Player &player)
     if (count == 6)
     {
         getNewPool(player);
+    } else if (count == 5) {
+        unique = true;
     }
 }
 
@@ -154,15 +156,30 @@ pair<string, string> Game::getPlay(Player &player)
     cout << "The pool has " << letterBag.size() << " letters, beware of that!" << endl;
     checkPool(player);
     printPool(player);
-    cout << endl;
-    cout << "Please input your plays: ";
-    cin >> play1 >> play2;
+    if (unique){
+        cout << endl;
+        cout << "Please input your play: ";
+        cin >> play1
+        play2 = "Uu";
 
-    while(cin.fail()){
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "Input valid plays (with letters as coordinates): ";
+        while(cin.fail()){
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Input a valid play (with letters as coordinates): ";
+            cin >> play1;
+        }
+        
+    } else {
+        cout << endl;
+        cout << "Please input your plays: ";
         cin >> play1 >> play2;
+
+        while(cin.fail()){
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Input valid plays (with letters as coordinates): ";
+            cin >> play1 >> play2;
+        }
     }
 
     return make_pair(play1, play2);
@@ -384,7 +401,6 @@ void Game::makePlay(Player &player, pair<string, string> plays)
             exchangeChips(player);
             p1 = false;
             p2 = false;
-            ;
         }
         else if ((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ"))
         { //Checking if we have a "I need new chips" situation;
@@ -394,6 +410,11 @@ void Game::makePlay(Player &player, pair<string, string> plays)
         else if ((plays.second == "Zz") || (plays.second == "ZZ") || (plays.second == "zz") || (plays.second == "zZ"))
         {
             exchangeChip(player);
+            p2 = false;
+        } else if ((plays.second == "Uu") && ((plays.first == "Zz") || (plays.first == "ZZ") || (plays.first == "zz") || (plays.first == "zZ")){
+            p2 = false;
+            exchangeChip(player);
+        } else if ((plays.second = "Uu") && (plays.first != "Zz")) {
             p2 = false;
         }
         break;
