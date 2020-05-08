@@ -51,6 +51,7 @@ Points are only given by words completed - you will only get a point if you capt
   <img src="https://user-images.githubusercontent.com/64466406/81389602-035bad00-9112-11ea-8388-7560f0fc2a5a.png">
 </p>
 
+### Exchanging Chips
 <div style="text-align:justify">
 To exchange a chip, one of your plays should be Zz. To exchange two, both plays need to be Zz. Chip switching is limited by three factors alone: invalid chips, the letter pool and your concentration.
 </div>
@@ -63,6 +64,7 @@ To exchange a chip, one of your plays should be Zz. To exchange two, both plays 
 Player1 decided to exchange 2 chips: he is immediately warned about the letter pool before each play, so he knows he can exchange 2 chips without a problem. When the letter pool is empty (0 letters), the game will declare a winner automatically. Right after, his pool is printed again so he can be reminded of his chips - he can exchange chips in positions 1, 2, 3, 5 and 6. If he inputs any other position, any switching will be COMPLETELY invalidated - this is the game punishing you for not paying attention, so always be calm about exchanging chips, we wouldn't want you to lose a letter you actually need or to waste a turn!
 Other than this, the game will also declare a winner if, by some insane amount of luck, all words are captured.
 Some more intricate cases are also contemplated, and the game will let you know what to do whenever they're appliable!
+</p>
 </div>
 
 ```python
