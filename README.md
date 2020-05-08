@@ -55,9 +55,7 @@ Points are only given by words completed - you will only get a point if you capt
 ### Exchanging Chips
 <div style="text-align:justify">
 To exchange a chip, one of your plays should be Zz. To exchange two, both plays need to be Zz. Chip switching is limited by three factors alone: invalid chips, the letter pool and your concentration.
-</div>
-
-
+</div> <br/>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/64466406/81389700-27b78980-9112-11ea-9b06-62ae8b221a55.png">
 </p>
