@@ -529,7 +529,7 @@ void Game::game(Board &board, vector<Player> &players)
             if ((boardWords.size() == 0) || (letterBag.size() == 0))
             {
                 end = true;
-                break;
+                abruptEnd();
             }
         }
     }
