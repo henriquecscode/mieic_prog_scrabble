@@ -57,7 +57,7 @@ public:
     void exchangeChips(Player &player);
     void declareWinner();
     void execute();
-
+    void abruptEnd();
     void printBoard() const;
 
     //Auxiliar functions for print board

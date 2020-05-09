@@ -8,6 +8,26 @@ int Game::getIndex(int size)
     return result;
 }
 
+void Game::abruptEnd(){
+    string fin;
+    if (end == true){
+        declareWinner();
+    } else {
+        cout << "This game is a tie!" << endl;
+        
+        for (int i = 0; i < players.size(); i++){
+            cout << players[i].name << ", you finished with " << players[i].score << " points." << endl;
+        }
+        cout << "Great job, everyone!" << endl;
+    }
+
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cout << "Input anything to close the game! " << endl;
+    cin >> fin;
+    exit(0);
+}
+
 void Game::checkPlays(string &p1, string &p2){
     if (isupper(p1[1])){
         p1[1] = p1[1] + 32;
@@ -23,6 +43,10 @@ void Game::checkPlays(string &p1, string &p2){
 
     if (islower(p2[0])){
         p2[0] = p2[0] - 32;
+    }
+
+    if ((p1 == "Yy") && (p2 == "Yy")){
+        abruptEnd();
     }
 }
 
@@ -44,6 +68,8 @@ void Game::beginningInstructions()
     cout << "Switching chips counts as a turn!" << endl;
     cout << "We advise you to play whenever you know you can, so don't fool yourself by trying to be 'sneaky'." << endl;
     cout << "Everytime you have no chips, you'll get new ones automatically." << endl;
+    cout << "If you wish to end a game before it declares a winner, input Yy as both plays in a turn!" << endl;
+    cout << "This GAME OVER will be declared as a tie." << endl;
     cout << endl;
 }
 
@@ -157,6 +183,7 @@ void Game::getNewPool(Player &player)
         if ((answer = 'Y') || (answer = 'y'))
         {
             end = true;
+            abruptEnd();
         }
     }
 }
@@ -633,7 +660,7 @@ void Game::setColorNotCaptured() const
 
 int main()
 {
-    char fin;
+    string fin;
     Game game;
     game.execute();
     cout << "Input anything to close the game! " << endl;
