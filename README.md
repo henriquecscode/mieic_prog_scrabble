@@ -89,4 +89,9 @@ When those cases arise, the game will tell the player what he should do. Most of
 ## Choices we made
 <ul>
 <li>A player cannot exchange an invalid (-) chip - should one player try it, their turn will immediately end;</li>
-<li></li></ul>
+<li>Players don't get punished for invalid plays - an invalid play will just result in a simple warning;</li>
+<li>Since it was recquired to have a limited letter pool, players will be punished for trying to exchange invalid (-) chips;</li>
+<li>Trying to capture letters in the wrong order (for example, trying to capture the R and U in FRUIT before the F or even inputting the U coordinates before R will not capture the words, since the capturing is done sequentially, one play at a time;</li>
+<li>Players get to force a tie, but doing this won't declare a winner - seemed like the fair thing to do;</li>
+<li>The letter pool ending results in an abrupt ending, but with a winner declared;</li>
+<li>The letter pool gets randomly assigned letters, which means not always will it get the recquired letters to finish the board;</li></ul>
