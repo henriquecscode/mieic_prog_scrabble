@@ -159,7 +159,7 @@ void Game::getNewPool(Player &player)
 {
 
     char answer;
-    if (letterBag.size() < 7)
+    if (letterBag.size() >= 7)
     {
         for (int j = 0; j <= 6; j++)
         {
@@ -207,11 +207,11 @@ void Game::checkPool(Player &player)
             count++;
         }
     }
-    if (count == 6)
+    if (count == 7)
     {
         getNewPool(player);
     }
-    else if (count == 5)
+    else if (count == 6)
     {
         unique = true;
     }
