@@ -283,7 +283,7 @@ void BoardBuilder::saveData(std::ofstream &file) const
     file << size << " x " << size;
     for (auto it = used_words.begin(); it != used_words.end(); it++)
     {
-        file  << '\n' << char(it->coords[0]) << char(it->coords[1]) << ' ' << char(it->position) << ' ' << it->wordgit ;
+        file  << '\n' << char(it->coords[0]) << char(it->coords[1]) << ' ' << char(it->position) << ' ' << it->word;
     }
 }
 
