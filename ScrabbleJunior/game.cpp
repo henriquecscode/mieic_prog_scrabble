@@ -75,7 +75,6 @@ void Game::beginningInstructions()
 
 void Game::prepGame(Board &board)
 {
-    srand(time(NULL));
     vector<vector<Info>> vecBo = board.boardBuilder();
     vectorBoard = vecBo; //We create the actual board;
     wordData = board.getWordData();
