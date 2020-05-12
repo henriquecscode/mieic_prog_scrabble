@@ -199,7 +199,8 @@ void Game::printPool(Player &player)
 void Game::checkPool(Player &player)
 {
     int count = 0;
-    for (int i = 0; i < 6; i++)
+    sort(player.pool.begin(), player.pool.end());
+    for (int i = 0; i <= 6; i++)
     {
         if (player.pool[i] == '-')
         {
