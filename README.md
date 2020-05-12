@@ -70,6 +70,21 @@ Player1 decided to exchange 2 chips: he is immediately warned about the letter p
 If he inputs any other position, any switching will be COMPLETELY invalidated - this is the game punishing you for not paying attention, so always be calm about exchanging chips, we wouldn't want you to lose a letter you actually need or to waste a precious turn!
 </p>
 
+## Board Builder
+
+### How to use
+<p align="justify">
+Open the executable and you'll be greeted with a very simple interface that shall let you build your own boards. The first thing you'll have to do is to give the program a file with words - don't worry, we already got you covered with a big one ("WORDS.txt") -, that will be used to verify the words you wish to place in a board, that will even give you some replacing words in case you choose a word that isn't part of the file! After that, you'll be asked about the size of the board, which will always be square-shaped! Finally, the board builder will work similarly to the SCRABBLE JUNIOR game, but with a more slowed down pace, for each letter you wish to place in the board you'll need to provide:
+</p>
+<ul>
+<li>a row coordinate (an upper case letter);</li>
+<li>a collumn coordinate (a lower case letter);</li>
+<li>an orientation (either H for Horizontal or V for Vertical);</li>
+</ul>
+<p align="justify">
+From just this, you will be able to build the board following some very simple guidelines - the builder will recognize situations where you're trying to do something that you shouldn't be able to do, and remind you accordingly, so don't worry about following rules! Don't forget to give your custom boards some appealing names! Might we suggest "BOARD_BY_ME"?
+</p>
+
 ## FAQ
 > Why can't we choose who gets to play first?
 <p align="justify">
@@ -86,6 +101,27 @@ Whenever the letter pool (which will be constantly updated) is empty or (by some
 When those cases arise, the game will tell the player what he should do. Most of the times, it's boils down to having to forcefully make an invalid play, since this is a mostly neutral action in a game - the only punish for invalid plays is a simple warning that the play was, in fact, invalid. This means that when you do it <em>on purpose</em>, there's nothing to lose from it, it's just a way to move to the next turn until the game can actually do what it should!
 </p>
 
+> How many words can I put in a board when building one?
+<p align="justify">
+As many as the simple guidelines the BOARD BUILDER follows allows you to, which only prevent you from having adjacent words unless they somehow intersect. The size of the board is obviously at play here as well, but that's only natural.
+</p>
+
+> Why do I have to put the executables in the same place as the files I need to use?
+<p align= "justify">
+Both programs were made to work inside a specific folder for them - we took this into consideration since we also like having an organized computer, with a folder for a game. Also, the alternative consisted in having the player copy the WHOLE path to a file and pasting it on input, which would be (in our humble opinion) a hassle for everyone.
+</p>
+
+> Is there any easy strategy to win the game?
+<p align= "justify">
+Being attentive and concentrated in what you're doing is a great start - which we mean without an ounce of passive-aggressiveness towards the person reading this. As alluded before, SCRABBLE JUNIOR is <em>kind of</em> a luck based game. We tried to make it a little more stategy based by asking for attention from the player - for example: you won't be forced to play a chip you can play because you might wish to exchange it instead for a potentially better one -, so that's really all we can tell you. But keeping track of each player's chips can definitely be useful, as well!
+</p>
+
+> I found a bug! How should I tell you about it?
+<p align= "justify">
+First of all, we're so sorry and hope it didn't affect your experience of the game or the builder. If you wish to contact us, try reaching out through GitHub and tell us about the issue. We'll try to attend to it as soon as possible and thanks for worrying about it!
+</p>
+
+
 ## Choices we made
 <ul>
 <li>A player cannot exchange an invalid (-) chip - should one player try it, their turn will immediately end;</li>
@@ -94,4 +130,8 @@ When those cases arise, the game will tell the player what he should do. Most of
 <li>Trying to capture letters in the wrong order (for example, trying to capture the R and U in FRUIT before the F or even inputting the U coordinates before R will not capture the words, since the capturing is done sequentially, one play at a time;</li>
 <li>Players get to force a tie, but doing this won't declare a winner - seemed like the fair thing to do;</li>
 <li>The letter pool ending results in an abrupt ending, but with a winner declared;</li>
-<li>The letter pool gets randomly assigned letters, which means not always will it get the recquired letters to finish the board;</li></ul>
+<li>The letter pool gets randomly assigned letters, which means not always will it get the recquired letters to finish the board;</li>
+<li>The board builder suggests words to the user whenever they try to place a letter that's not part of the word list file used;</li>
+<li>The board builder makes sure words aren't entirely adjacent (2 horizontal words won't be in succeeding horizontal lines, just like 2 vertical words won't be in succeeding vertical lines and two words of different orientation won't "touch" unless they share an intersecting letter);</li>
+<li>
+</ul>
