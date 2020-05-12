@@ -72,7 +72,7 @@ If he inputs any other position, any switching will be COMPLETELY invalidated - 
 
 ## Board Builder
 
-### How to use
+### How to Use
 <p align="justify">
 Open the executable and you'll be greeted with a very simple interface that shall let you build your own boards. The first thing you'll have to do is to give the program a file with words - don't worry, we already got you covered with a big one ("WORDS.txt") -, that will be used to verify the words you wish to place in a board, that will even give you some replacing words in case you choose a word that isn't part of the file! After that, you'll be asked about the size of the board, which will always be square-shaped! Finally, the board builder will work similarly to the SCRABBLE JUNIOR game, but with a more slowed down pace, for each letter you wish to place in the board you'll need to provide:
 </p>
@@ -124,6 +124,8 @@ First of all, we're so sorry and hope it didn't affect your experience of the ga
 
 ## Choices we made
 <ul>
+<li>The board builder suggests words to the user whenever they try to place a letter that's not part of the word list file used;</li>
+<li>The board builder makes sure words aren't entirely adjacent (2 horizontal words won't be in succeeding horizontal lines, just like 2 vertical words won't be in succeeding vertical lines and two words of different orientation won't "touch" unless they share an intersecting letter);</li>
 <li>A player cannot exchange an invalid (-) chip - should one player try it, their turn will immediately end;</li>
 <li>Players don't get punished for invalid plays - an invalid play will just result in a simple warning;</li>
 <li>Since it was recquired to have a limited letter pool, players will be punished for trying to exchange invalid (-) chips;</li>
@@ -131,7 +133,6 @@ First of all, we're so sorry and hope it didn't affect your experience of the ga
 <li>Players get to force a tie, but doing this won't declare a winner - seemed like the fair thing to do;</li>
 <li>The letter pool ending results in an abrupt ending, but with a winner declared;</li>
 <li>The letter pool gets randomly assigned letters, which means not always will it get the recquired letters to finish the board;</li>
-<li>The board builder suggests words to the user whenever they try to place a letter that's not part of the word list file used;</li>
-<li>The board builder makes sure words aren't entirely adjacent (2 horizontal words won't be in succeeding horizontal lines, just like 2 vertical words won't be in succeeding vertical lines and two words of different orientation won't "touch" unless they share an intersecting letter);</li>
+<li>Player pools get sorted to help with choosing chips to exchange;</li>
 <li>
 </ul>
