@@ -101,20 +101,19 @@ void BoardBuilder::setWordInBoard(std::string word)
 
 void BoardBuilder::printBoard() const
 {
-
-    //X coordinates
-    std::cout << ' ';
+    std::cout << "  ";
     for (int i = 0; i < size; i++)
     {
-        std::cout << char(ASCII_a + i);
+        std::cout << std::setw(2) << char(ASCII_a + i);
     }
     std::cout << '\n';
 
     for (int i = 0; i < size; i++)
     {
-        std::cout << char(ASCII_A + i);
+        std::cout << std::setw(2) << char(ASCII_A + i);
         for (int j = 0; j < size; j++)
         {
+            std::cout << std::setw(2);
             std::cout << board[i][j];
         }
         std::cout << '\n';
