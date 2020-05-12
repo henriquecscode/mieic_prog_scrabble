@@ -280,10 +280,10 @@ int BoardBuilder::binarySearch(const std::string &word) const
 void BoardBuilder::saveData(std::ofstream &file) const
 {
     //Still missing conversion to upper case
-    file << size << " x " << size << '\n';
+    file << size << " x " << size;
     for (auto it = used_words.begin(); it != used_words.end(); it++)
     {
-        file << char(it->coords[0]) << char(it->coords[1]) << ' ' << char(it->position) << ' ' << it->word << '\n';
+        file  << '\n' << char(it->coords[0]) << char(it->coords[1]) << ' ' << char(it->position) << ' ' << it->word;
     }
 }
 
