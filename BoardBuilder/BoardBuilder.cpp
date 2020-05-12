@@ -14,7 +14,7 @@ void BoardBuilder::setFile()
     std::string filename;
     do
     {
-        std::cout << "Input a valid filename" << '\n';
+        std::cout << "Input a valid filename with its extension" << '\n';
         std::cin >> filename;
         dict_file.open(filename);
 
@@ -186,7 +186,7 @@ bool BoardBuilder::insertWord(std::string word, int x, int y, orientation word_o
     int versor[2] = {word_orientation == horizontal, word_orientation == vertical};
 
     //Check if the word is inside the board
-    if (x + versor[0] * word_len >= size || y + versor[1] * word_len >= size)
+    if (x + versor[0] * word_len > size || y + versor[1] * word_len > size)
     {
         // Out of bounds
         return false;
@@ -208,14 +208,14 @@ bool BoardBuilder::insertWord(std::string word, int x, int y, orientation word_o
     }
 
     //Check for words in the same orientation (on the end)
-    if (x * versor[0] + y * versor[1] == size - 1)
+    if ((x + word_len * versor[0]) * versor[0] + (y + word_len * versor[1]) * versor[1] == size)
     {
         // Means that the word is against one of the margins
         // No need to check if it is adjacent with a word on the same direction
     }
     else
     {
-        if (board[y + versor[1]][x + versor[0]] != ' ')
+        if (board[y + word_len * versor[1]][x + word_len * versor[0]] != ' ')
         {
             // Our word is ending right before another, which is impossible
             return false;
