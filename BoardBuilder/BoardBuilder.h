@@ -47,7 +47,7 @@ public:
     std::string readWord() const;
     void askCoordinate(int &x, int&y) const;
     orientation askOrientation() const;
-    void toUpper(std::string &word) const;
+    std::string toUpper(std::string word) const;
 
 private:
     int size;
