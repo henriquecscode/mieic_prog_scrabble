@@ -254,13 +254,13 @@ bool BoardBuilder::insertWord(std::string word, int x, int y, orientation word_o
         {
             // We can check the footprint in the left/up side
             std::vector<BoardWord> footprint_words = board_coord_to_word[this_y - versor[0]][this_x - versor[1]];
-            proceed = proceed && checkWordFootprint(this_x - versor[1], this_y - versor[0], footprint_words, word_orientation);
+            proceed = proceed && checkWordFootprint(this_x - versor[1], this_y - versor[0], footprint_words, true, word_orientation);
         }
         if ((x + versor[1]) * versor[1] + (y + versor[0]) * versor[0] <= size - 1)
         {
             // We can check the footprint in the right/down side
             std::vector<BoardWord> footprint_words = board_coord_to_word[this_y + versor[0]][this_x + versor[1]];
-            proceed = proceed && checkWordFootprint(this_x + versor[1], this_y + versor[0], footprint_words, word_orientation);
+            proceed = proceed && checkWordFootprint(this_x + versor[1], this_y + versor[0], footprint_words, false, word_orientation);
         }
 
         //Check the conditions
@@ -280,7 +280,7 @@ bool BoardBuilder::insertWord(std::string word, int x, int y, orientation word_o
     return true;
 }
 
-bool BoardBuilder::checkWordFootprint(int footprint_x, int footprint_y, std::vector<BoardWord> footprint_words, orientation word_orientation) const
+bool BoardBuilder::checkWordFootprint(int footprint_x, int footprint_y, std::vector<BoardWord> footprint_words, bool footprint_left_up, orientation word_orientation) const
 {
     for (auto it = footprint_words.begin(); it != footprint_words.end(); it++)
     {
@@ -288,14 +288,23 @@ bool BoardBuilder::checkWordFootprint(int footprint_x, int footprint_y, std::vec
         {
             return false;
         }
-
-        int footprint_word_versor[2] = {it->word_orientation == horizontal, it->word_orientation == vertical};
-        int footprint_word_last_x = it->num_coords[0] + (it->word.size() - 1) * footprint_word_versor[0];
-        int footprint_word_last_y = it->num_coords[1] + (it->word.size() - 1) * footprint_word_versor[1];
-        if (footprint_word_last_x == footprint_x && footprint_word_last_y == footprint_y)
+        if (footprint_left_up)
         {
-            // The word ends adjacent to the word we are trying to insert
-            return false;
+            // We are in the left or above the word, so need to check if another word ends in this position
+            int footprint_word_versor[2] = {it->word_orientation == horizontal, it->word_orientation == vertical};
+            int footprint_word_last_x = it->num_coords[0] + (it->word.size() - 1) * footprint_word_versor[0];
+            int footprint_word_last_y = it->num_coords[1] + (it->word.size() - 1) * footprint_word_versor[1];
+            if (footprint_word_last_x == footprint_x && footprint_word_last_y == footprint_y)
+            {
+                // The word ends adjacent to the word we are trying to insert
+                return false;
+            }
+        }
+        else{
+            // We are in the right or below the word, so need to check if another words starts in this position
+            if(it->num_coords[0] == footprint_x && it->num_coords[1] == footprint_y){
+                return false;
+            }
         }
     }
     return true;

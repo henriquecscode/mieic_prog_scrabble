@@ -40,7 +40,7 @@ public:
     std::string getWord(const std::string &expected_word) const;
     std::string getIncorrectWord(const int &index) const;
     bool insertWord(std::string word, int x, int y, orientation word_orientation);
-    bool checkWordFootprint(int footprint_x, int footprint_y, std::vector<BoardWord> footprint_words, orientation word_orientation) const;
+    bool checkWordFootprint(int footprint_x, int footprint_y, std::vector<BoardWord> footprint_words, bool footprint_left_up, orientation word_orientation) const;
     int binarySearch(const std::string &word) const;
     void saveData(std::ofstream &file) const;
     void saveWord(std::string word, int x, int y, orientation word_orientation, int versor[2]);
