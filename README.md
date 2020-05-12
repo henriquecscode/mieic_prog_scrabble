@@ -74,7 +74,7 @@ If he inputs any other position, any switching will be COMPLETELY invalidated - 
 
 ### How to Use
 <p align="justify">
-Open the executable and you'll be greeted with a very simple interface that shall let you build your own boards. The first thing you'll have to do is to give the program a file with words - don't worry, we already got you covered with a big one ("WORDS.txt") -, that will be used to verify the words you wish to place in a board, that will even give you some replacing words in case you choose a word that isn't part of the file! After that, you'll be asked about the size of the board, which will always be square-shaped! Finally, the board builder will work similarly to the SCRABBLE JUNIOR game, but with a more slowed down pace, for each letter you wish to place in the board you'll need to provide:
+Open the executable and you'll be greeted with a very simple interface that shall let you build your own boards. The first thing you'll have to do is to give the program a file with words - don't worry, we already got you covered with a big one ("WORDS.txt") -, that will be used to verify the words you wish to place in a board and even give you some replacing words in case you choose a word that isn't part of the file! After that, you'll be asked about the size of the board, which will always be square-shaped! Finally, the board builder will work similarly to the SCRABBLE JUNIOR game, but with a more slowed down pace, for each letter you wish to place in the board you'll need to provide:
 </p>
 <ul>
 <li>a row coordinate (an upper case letter);</li>
