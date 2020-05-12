@@ -126,10 +126,11 @@ First of all, we're so sorry and hope it didn't affect your experience of the ga
 <ul>
 <li>The board builder suggests words to the user whenever they try to place a letter that's not part of the word list file used;</li>
 <li>The board builder makes sure words aren't entirely adjacent (2 horizontal words won't be in succeeding horizontal lines, just like 2 vertical words won't be in succeeding vertical lines and two words of different orientation won't "touch" unless they share an intersecting letter);</li>
+<li>While doing building a board, it's recquired to input the coordinates without fail (uppercase letter - row -, lowercase letter - collumn -, uppercase letter - orientation);</li>
+<li>During games, the previous choice is way more relaxed - players can input unformatted plays (like "aA", "aa" or "AA"), the game is ready to deal with these situations;</li>
 <li>A player cannot exchange an invalid (-) chip - should one player try it, their turn will immediately end;</li>
-<li>Players don't get punished for invalid plays - an invalid play will just result in a simple warning;</li>
-<li>Since it was recquired to have a limited letter pool, players will be punished for trying to exchange invalid (-) chips;</li>
-<li>Trying to capture letters in the wrong order (for example, trying to capture the R and U in FRUIT before the F or even inputting the U coordinates before R will not capture the words, since the capturing is done sequentially, one play at a time;</li>
+<li>Players don't get punished for invalid plays - an invalid play will just result in a simple warning -, and might be solicited from players in some extreme cases;</li>
+<li>Trying to capture letters in the wrong order (for example, trying to capture the R and U in FRUIT by inputting the U coordinate before R) will not capture the letters, since the capturing is done sequentially, one play at a time;</li>
 <li>Players get to force a tie, but doing this won't declare a winner - seemed like the fair thing to do;</li>
 <li>The letter pool ending results in an abrupt ending, but with a winner declared;</li>
 <li>The letter pool gets randomly assigned letters, which means not always will it get the recquired letters to finish the board;</li>
