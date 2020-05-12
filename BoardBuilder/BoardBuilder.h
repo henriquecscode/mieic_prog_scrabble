@@ -17,7 +17,9 @@ typedef enum {
 struct BoardWord
 {
     char coords[2];
-    orientation position;
+    int num_coords[2];
+    //Attention, coords[0] -> y coords[1] -> x; num_coords[0] -> x num_coords[1] -> y
+    orientation word_orientation;
     std::string word;
 };
 
@@ -37,6 +39,7 @@ public:
     std::string getWord(const std::string &expected_word) const;
     std::string getIncorrectWord(const int &index) const;
     bool insertWord(std::string word, int x, int y, orientation word_orientation);
+    bool checkWordFootprint(int footprint_x, int footprint_y, std::vector<BoardWord> footprint_words, orientation word_orientation) const;
     int binarySearch(const std::string &word) const;
     void saveData(std::ofstream &file) const;
     void saveWord(std::string word, int x, int y, orientation word_orientation, int versor[2]);
@@ -51,5 +54,7 @@ private:
     std::ifstream dict_file;
     std::vector<std::string> dictionary;
     std::vector<std::vector<char>> board;
+    std::vector<std::vector<std::vector<BoardWord>>> board_coord_to_word;
+    //A board in which each position is a vector with the word(s) that already have that position. Used to do checks on whether or not a word can be added to a certain spot
     std::vector<BoardWord> used_words;
 };

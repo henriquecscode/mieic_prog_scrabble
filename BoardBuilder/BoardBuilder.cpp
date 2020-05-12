@@ -26,7 +26,10 @@ void BoardBuilder::readFile()
     std::string word;
     while (getline(dict_file, word))
     {
-        dictionary.push_back(word);
+        if (word.length() > 2)
+        { //Only allows words with more than 2 letters
+            dictionary.push_back(word);
+        }
     }
     dict_file.close();
 }
@@ -43,9 +46,9 @@ void BoardBuilder::setSize()
 {
     do
     {
-        std::cout << "Input a board size [1,20]\n";
+        std::cout << "Input a board size [5,20]\n";
         size = readInt();
-    } while (size <= 0 || size > 20);
+    } while (size <= 4 || size > 20);
     constructBoard();
 }
 
@@ -136,6 +139,7 @@ void BoardBuilder::constructBoard()
 {
     // Construct an empty board after knowing what size it will be
     board = std::vector<std::vector<char>>(size, std::vector<char>(size, ' '));
+    board_coord_to_word = std::vector<std::vector<std::vector<BoardWord>>>(size, std::vector<std::vector<BoardWord>>(size, std::vector<BoardWord>()));
 }
 
 std::string BoardBuilder::getWord(const std::string &expected_word) const
@@ -223,22 +227,78 @@ bool BoardBuilder::insertWord(std::string word, int x, int y, orientation word_o
     {
         int this_x = x + versor[0] * i;
         int this_y = y + versor[1] * i;
-        if (board[this_x][this_y] == ' ')
+
+        //Check for problems in the word itself
+        if (board[this_x][this_y] != ' ')
         {
-            continue;
-        }
-        else
-        {
+            //There was already a letter there
+
+            for (auto it = board_coord_to_word[this_x][this_y].begin(); it != board_coord_to_word[this_x][this_y].end(); it++)
+            //Iterator to the vector on the current position (Max size is 2)
+            {
+                if (it->word_orientation == word_orientation)
+                {
+                    //There is already a word with the same orientation here
+                    return false;
+                }
+            }
+
             if (board[this_x][this_y] != word[i])
             {
                 //We are missmatching words
                 return false;
             }
         }
+        bool proceed = true;
+        //Let's check for problems in it's footprint: the coordinates adjacent in the perpendicular direction
+        if ((x - versor[1]) * versor[1] + (y - versor[0]) * versor[0] >= 0)
+        {
+            // We can check the footprint in the left/up side
+            std::vector<BoardWord> footprint_words = board_coord_to_word[this_y - versor[0]][this_x - versor[1]];
+            proceed = proceed && checkWordFootprint(this_x, this_y, footprint_words, word_orientation);
+        }
+        if ((x + versor[1]) * versor[1] + (y + versor[0]) * versor[0] <= size - 1)
+        {
+            // We can check the footprint in the right/down side
+            std::vector<BoardWord> footprint_words = board_coord_to_word[this_y + versor[0]][this_x + versor[1]];
+            proceed = proceed && checkWordFootprint(this_x, this_y, footprint_words, word_orientation);
+        }
+
+        //Check the conditions
+        if (proceed)
+        {
+            continue;
+        }
+        else
+        {
+            //A condition was not met
+            return false;
+        }
     }
 
     //Passed all conditions, we need to add the word to the board and to the final vector
     saveWord(word, x, y, word_orientation, versor);
+    return true;
+}
+
+bool BoardBuilder::checkWordFootprint(int footprint_x, int footprint_y, std::vector<BoardWord> footprint_words, orientation word_orientation) const
+{
+    for (auto it = footprint_words.begin(); it != footprint_words.end(); it++)
+    {
+        if (it->word_orientation == word_orientation)
+        {
+            return false;
+        }
+
+        int footprint_word_versor[2] = {it->word_orientation == horizontal, it->word_orientation == vertical};
+        int footprint_word_last_x = it->num_coords[0] + (it->word.size() - 1) * footprint_word_versor[0];
+        int footprint_word_last_y = it->num_coords[1] + (it->word.size() - 1) * footprint_word_versor[1];
+        if (footprint_word_last_x == footprint_x && footprint_word_last_y == footprint_y)
+        {
+            // The word ends adjacent to the word we are trying to insert
+            return false;
+        }
+    }
     return true;
 }
 
@@ -283,21 +343,13 @@ void BoardBuilder::saveData(std::ofstream &file) const
     file << size << " x " << size;
     for (auto it = used_words.begin(); it != used_words.end(); it++)
     {
-        file  << '\n' << char(it->coords[0]) << char(it->coords[1]) << ' ' << char(it->position) << ' ' << it->word;
+        file << '\n'
+             << char(it->coords[0]) << char(it->coords[1]) << ' ' << char(it->word_orientation) << ' ' << it->word;
     }
 }
 
 void BoardBuilder::saveWord(std::string word, int x, int y, orientation word_orientation, int versor[2])
 {
-
-    int this_x, this_y;
-    //Put the word in the board
-    for (int i = 0; i < word.length(); i++)
-    {
-        this_x = x + versor[0] * i;
-        this_y = y + versor[1] * i;
-        board[this_y][this_x] = word[i];
-    }
 
     // Remove from dictionary to prevent reuse
     // We calculate the index again which is not perfect
@@ -306,8 +358,19 @@ void BoardBuilder::saveWord(std::string word, int x, int y, orientation word_ori
 
     //Put word in the storage array
     toUpper(word);
-    BoardWord word_to_save = {{char(y + ASCII_A), char(x + ASCII_a)}, word_orientation, word};
+    BoardWord word_to_save = {{char(y + ASCII_A), char(x + ASCII_a)}, {x,y}, word_orientation, word};
     used_words.push_back(word_to_save);
+    BoardWord this_word = used_words.back(); //Reference to the word we just modified
+
+    int this_x, this_y;
+    //Put the word in the board
+    for (int i = 0; i < word.length(); i++)
+    {
+        this_x = x + versor[0] * i;
+        this_y = y + versor[1] * i;
+        board[this_y][this_x] = word[i];
+        board_coord_to_word[this_y][this_x].push_back(this_word); //Save the word in this board position
+    }
 }
 
 int BoardBuilder::readInt()
@@ -375,10 +438,12 @@ orientation BoardBuilder::askOrientation() const
     return word_orientation;
 }
 
-void BoardBuilder::toUpper(std::string &word) const{
+void BoardBuilder::toUpper(std::string &word) const
+{
     //http://www.cplusplus.com/reference/locale/toupper/
     std::locale loc;
-    for(int i = 0; i < word.length(); i++){
+    for (int i = 0; i < word.length(); i++)
+    {
         word[i] = std::toupper(word[i], loc);
     }
 }
