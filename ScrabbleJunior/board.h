@@ -21,10 +21,12 @@ class Board{
         void setWord(vector<vector<Info>> &vectorBoard, string coordinates, char orientation, string word);
         vector<string> getWords() const;
         map<string, vector<string>> getWordData() const;
+        int getSize() const;
     private:
         string boardName;
         vector<string> locations; //This will store all the information from the file
         vector<char> orientations;
         vector<string> words;
         map<string, vector<string>> wordData;
+        int size;
 };

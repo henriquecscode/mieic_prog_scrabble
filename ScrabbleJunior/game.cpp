@@ -45,7 +45,7 @@ void Game::checkPlays(string &p1, string &p2){
         p2[0] = p2[0] - 32;
     }
 
-    if ((p1 == "Yy") && (p2 == "Yy")){
+    if ((p1 == "Yy") || (p2 == "Yy")){
         abruptEnd();
     }
 }
@@ -68,7 +68,7 @@ void Game::beginningInstructions()
     cout << "Switching chips counts as a turn!" << endl;
     cout << "We advise you to play whenever you know you can, so don't fool yourself by trying to be 'sneaky'." << endl;
     cout << "Everytime you have no chips, you'll get new ones automatically." << endl;
-    cout << "If you wish to end a game before it declares a winner, input Yy as both plays in a turn!" << endl;
+    cout << "If you wish to end a game before it declares a winner, input Yy as a play in a turn!" << endl;
     cout << "This GAME OVER will be declared as a tie." << endl;
     cout << endl;
 }
@@ -109,6 +109,7 @@ void Game::prepGame(Board &board)
     //Getting all letters in a set so we can create a pool for each player.
     set<char> lBagSet;
     vector<string> vecWo = board.getWords();
+    boardSize = board.getSize() - 1;
     sort(vecWo.begin(), vecWo.end());
     boardWords = vecWo;
     int letterCount = 0;
@@ -235,13 +236,17 @@ pair<string, string> Game::getPlay(Player &player)
         cout << "Please input your play: ";
         cin >> play1;
         play2 = "Uu";
+        int p1_1 = code[play1.at(0)], p1_2 = code[play1.at(1)];
 
-        while (cin.fail())
+        while (cin.fail() || (((p1_1 > boardSize) || (p1_2 > boardSize)) && (play1 != "Zz")))
         {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cout << "Input a valid play (with letters as coordinates): ";
             cin >> play1;
+
+            p1_1 = code[play1.at(0)];
+            p1_2 = code[play1.at(1)];
         }
     }
     else
@@ -249,13 +254,20 @@ pair<string, string> Game::getPlay(Player &player)
         cout << endl;
         cout << "Please input your plays: ";
         cin >> play1 >> play2;
+        checkPlays(play1, play2);
+        int p1_1 = code[play1.at(0)], p1_2 = code[play1.at(1)], p2_1 = code[play2.at(0)], p2_2 = code[play2.at(1)];
 
-        while (cin.fail())
+        while (cin.fail() || (((p1_1 > boardSize) || (p1_2 > boardSize)) && (play1 != "Zz")) || (((p2_1 > boardSize) || (p2_2 > boardSize)) && (play2 != "Zz")))
         {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cout << "Input valid plays (with letters as coordinates): ";
             cin >> play1 >> play2;
+
+            p1_1 = code[play1.at(0)];
+            p1_2 = code[play1.at(1)];
+            p2_1 = code[play2.at(0)];
+            p2_2 = code[play2.at(1)];
         }
     }
 
@@ -463,7 +475,7 @@ void Game::captureLetter(Info &letter, Player &player, string play)
     }
     else if ((find(player.pool.begin(), player.pool.end(), letter.letter) == player.pool.end()) || (letter.state != false) || (letter.letter == ' '))
     {
-        cout << "That wasn't a valid play, " << player.name << ". No capturing for you!" << endl;
+        cout << "That wasn't a valid play (" << play << "), "  << player.name << ". No capturing for you!" << endl;
     }
 }
 
