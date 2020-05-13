@@ -39,6 +39,7 @@ As you can see, Player1 can capture both the F (of FRUIT) and the M (of MUSIC) i
 
 <p align="justify">
 Now, imagining Player2 has chips to do so for the sake of this explanation, he intends to keep capturing letters from the words FRUIT and MUSIC. He only wants to play one chip, though, so let's think about what can he do: he can either capture the R (Bb) from FRUIT or the U (Cb) from MUSIC. Depending on his/her/their strategy, one might be more ideal:
+</p>
 <ul>
 <li>if he captures the R, he'll be able to then capture the shared U without any problems;</li>
 <li>if he captures the U first, he'll only be able to capture the I from FRUIT after he captures its R;</li></ul>
