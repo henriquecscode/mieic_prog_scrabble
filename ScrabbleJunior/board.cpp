@@ -89,13 +89,6 @@ vector<vector<Info>> Board::boardBuilder(){
         setWord(vectorBoard, locations[i], orientations[i], words[i]);
     }
 
-    /*//Debug purposes. THIS PRINTS THE FUCKING BOARD SO ERASE THIS WHEN YOU'RE DONE YOU CUNT;
-    for (int i = 0; i < x; i++){
-        for (int j = 0; j < y; j++){
-            cout << vectorBoard[i][j].letter << " ";
-        }
-        cout << endl;
-    }*/
     return vectorBoard; 
 }
 
