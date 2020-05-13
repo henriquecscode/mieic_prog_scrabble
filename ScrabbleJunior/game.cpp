@@ -135,6 +135,8 @@ void Game::prepGame(Board &board)
         }
     }
 
+    letterCount = letterCount + playerCount*7; //to compensate for the letter pool!
+
     int bagSize = bag.size();
     for (int k = 0; k < letterCount; k++)
     {
