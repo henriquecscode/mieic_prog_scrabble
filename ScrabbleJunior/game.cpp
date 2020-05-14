@@ -235,7 +235,7 @@ pair<string, string> Game::getPlay(Player &player)
         cout << endl;
         cout << "Please input your play: ";
         cin >> play1;
-        play2 = "Uu";
+        play2 = "Uu"; //this is a special play, that the game will recognize as nothing, basically
         int p1_1 = code[play1.at(0)], p1_2 = code[play1.at(1)];
 
         while (cin.fail() || (((p1_1 > boardSize) || (p1_2 > boardSize)) && (play1 != "Zz")))
@@ -245,7 +245,7 @@ pair<string, string> Game::getPlay(Player &player)
             cout << "Input a valid play (with letters as coordinates): ";
             cin >> play1;
 
-            p1_1 = code[play1.at(0)];
+            p1_1 = code[play1.at(0)]; //setting these variables because they're part of the conditions for the cycle
             p1_2 = code[play1.at(1)];
         }
     }
@@ -265,7 +265,7 @@ pair<string, string> Game::getPlay(Player &player)
             cout << "Input valid plays (with letters as coordinates): ";
             cin >> play1 >> play2;
 
-            p1_1 = code[play1.at(0)];
+            p1_1 = code[play1.at(0)]; //setting these variables because they're part of the conditions for the cycle
             p1_2 = code[play1.at(1)];
             p2_1 = code[play2.at(0)];
             p2_2 = code[play2.at(1)];
@@ -278,7 +278,7 @@ pair<string, string> Game::getPlay(Player &player)
 
 void Game::exchangeChip(Player &player)
 {
-    int bagSize = letterBag.size();
+    int bagSize = letterBag.size(); //in order for the following code to work, we need to create a local variable
     if (bagSize >= 1) //checking if it's possible to exchange one chip
     {
         int ind1; //Index of the chip to switch in the playerPool.
@@ -299,13 +299,14 @@ void Game::exchangeChip(Player &player)
         }
 
         if (player.pool[ind1] != '-')
-        { //No invalid chips.
-            int index = getIndex(letterBag.size());
-            player.pool[ind1] = letterBag[index];
-            letterBag.erase(letterBag.begin() + index);
-            printPool(player);
+        { //No invalid chips allowed, here.
+            int index = getIndex(letterBag.size()); //geting the index
+            player.pool[ind1] = letterBag[index]; // setting the new chip
+            letterBag.erase(letterBag.begin() + index); //erasing it from the game's pool;
+            printPool(player); //print pool, to show the changes!
         }
         else
+        //if the player inputs the index of an invalid chip, he's done for
         {
             cout << "Invalid chip. No chip switching for you!" << endl;
         }
@@ -360,7 +361,7 @@ void Game::exchangeChips(Player &player)
         }
         cout << endl;
     }
-    else
+    else //if the pool no longer has the chips for a double switch, the player will be warned about it!
     {
         cout << "It's not possible to exchange 2 chips." << endl;
         cout << "Play the chips you have, if you can. Otherwise, do invalid plays!" << endl;
@@ -420,7 +421,7 @@ void Game::checkWords(Info &letter, Player &player, string play)
             player.pool[distance(player.pool.begin(), it)] = '-';
             checkCapture(letter.words[0], player);
         }
-        else
+        else //if the index isn't 0, it means the player is trying to capture a middle letter that's not the first uncaptured letter in the word!
         {
             letter.state = false;
             cout << "You can't capture that letter (" << play << "), " << player.name << ". Be more careful next time!" << endl;
@@ -431,7 +432,7 @@ void Game::checkWords(Info &letter, Player &player, string play)
         vector<string> a = wordData[letter.words[0]];
         int index = findIndex(a, play);
 
-        if (index == 0)
+        if (index == 0) //same logic as before, only with double the stuff!
         {
             vector<string> b = wordData[letter.words[1]];
             int index2 = findIndex(b, play);
