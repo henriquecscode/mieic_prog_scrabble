@@ -3,8 +3,8 @@ using namespace std;
 
 int Game::getIndex(int size)
 {
-    static srand(time(NULL));
-    int result = rand() % size;
+    static srand(time(NULL)); //random generator
+    int result = rand() % size; //getting an index;
     return result;
 }
 
@@ -76,13 +76,13 @@ void Game::beginningInstructions()
 void Game::prepGame(Board &board)
 {
     vector<vector<Info>> vecBo = board.boardBuilder();
-    vectorBoard = vecBo; //We create the actual board;
-    wordData = board.getWordData();
+    vectorBoard = vecBo; //we get the actual board;
+    wordData = board.getWordData(); //and this transfers
 
     cout << "Number of players: ";
-    cin >> playerCount; //And number of players.
+    cin >> playerCount; //and number of players.
 
-    while ((cin.fail()) || (playerCount > 4) || (playerCount < 2))
+    while ((cin.fail()) || (playerCount > 4) || (playerCount < 2)) //dealing with invalid input
     {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -90,16 +90,16 @@ void Game::prepGame(Board &board)
         cin >> playerCount;
     }
 
-    players.resize(playerCount);
+    players.resize(playerCount); //we adjust the players vector
 
-    for (int i = 0; i < playerCount; i++)
+    for (int i = 0; i < playerCount; i++) //getting player's names
     {
         string name;
         cout << "What's your name, player " << i + 1 << "? ";
         cin >> name;
         players[i].name = name;
 
-        while (cin.fail())
+        while (cin.fail()) //dealing with invalid input
         {
             cout << "What's your name, player " << i + 1 << "? ";
             cin >> players[i].name;
@@ -107,18 +107,18 @@ void Game::prepGame(Board &board)
     }
 
     //Getting all letters in a set so we can create a pool for each player.
-    set<char> lBagSet;
-    vector<string> vecWo = board.getWords();
-    boardSize = board.getSize() - 1;
-    sort(vecWo.begin(), vecWo.end());
-    boardWords = vecWo;
+    set<char> lBagSet; 
+    vector<string> vecWo = board.getWords(); //getting the board words
+    boardSize = board.getSize() - 1; //the size of the board will start counting from 0
+    sort(vecWo.begin(), vecWo.end()); //sorting the words
+    boardWords = vecWo; //passing the words into a private element of the class
     int letterCount = 0;
 
     for (int i = 0; i < boardWords.size(); i++)
     {
         for (int j = 0; j < boardWords[i].size(); j++)
         {
-            lBagSet.insert(boardWords[i].at(j));
+            lBagSet.insert(boardWords[i].at(j)); //creating a set of all letters in the board (no repetition)
         }
     }
 
@@ -131,7 +131,7 @@ void Game::prepGame(Board &board)
         {
             if (vectorBoard[i][j].letter != ' ')
             {
-                letterCount++; //contagem do número de letras;
+                letterCount++; //number of letters (intersecting letters only count once) in the board
             }
         }
     }
@@ -149,9 +149,9 @@ void Game::prepGame(Board &board)
     {
         for (int j = 0; j < 7; j++)
         {
-            int index = getIndex(letterBag.size());
-            players[i].pool.push_back(letterBag[index]);
-            letterBag.erase(letterBag.begin() + index);
+            int index = getIndex(letterBag.size()); //a random index
+            players[i].pool.push_back(letterBag[index]); //we insert a random chip into the player's pool
+            letterBag.erase(letterBag.begin() + index); //and erase it from the letter bag
         }
     }
     printBoard();
@@ -161,22 +161,22 @@ void Game::getNewPool(Player &player)
 {
 
     char answer;
-    if (letterBag.size() >= 7)
+    if (letterBag.size() >= 7) //when the letter bag allows it, we generate a new pool
     {
         for (int j = 0; j <= 6; j++)
         {
-            int index = getIndex(letterBag.size());
-            player.pool[j] = letterBag[index];
-            letterBag.erase(letterBag.begin() + index);
+            int index = getIndex(letterBag.size()); //a random index
+            player.pool[j] = letterBag[index]; //we change the invalid chip
+            letterBag.erase(letterBag.begin() + index); //and erase it from the game's pool
         }
     }
-    else
+    else //other wise, the game will give the players a choice to end the game right then and there
     {
         cout << "You were supposed to get a new set of chips, but there aren't enough letters left in the pool!";
         cout << "Would you like to end the game now or go until the automatic END (empty pool) (Y/N)? ";
         cin >> answer;
 
-        while (cin.fail() || ((answer != 'Y') && (answer != 'y') && (answer != 'N') && (answer != 'n')))
+        while (cin.fail() || ((answer != 'Y') && (answer != 'y') && (answer != 'N') && (answer != 'n'))) //to deal with bad input
         {
             cout << "Couldn't get that! Try again: ";
             cin >> answer;
@@ -203,18 +203,18 @@ void Game::checkPool(Player &player)
 {
     int count = 0;
     sort(player.pool.begin(), player.pool.end());
-    for (int i = 0; i <= 6; i++)
+    for (int i = 0; i <= 6; i++) 
     {
         if (player.pool[i] == '-')
         {
-            count++;
+            count++; //+1 for each invalid (-) chip;
         }
     }
-    if (count == 7)
+    if (count == 7) //if all chips are invalid, the player needs a new pool;
     {
         getNewPool(player);
     }
-    else if (count == 6)
+    else if (count == 6) //if there's only one invalid chip, output will be readjusted;
     {
         unique = true;
     }
@@ -225,11 +225,11 @@ pair<string, string> Game::getPlay(Player &player)
     string play1, play2;
     cout << "It's your turn, " << player.name << ". Use ZZ as a play to exchange chips!" << endl;
     cout << "The pool has " << letterBag.size() << " letters, beware of that!" << endl;
-    checkPool(player);
-    printPool(player);
+    checkPool(player); //getting information from the pool
+    printPool(player); //printing it
     cout << endl;
     cout << "Current Score: " << player.score << endl;
-    if (unique)
+    if (unique) //in case the player only has one valid chip
     {
         unique = false;
         cout << endl;
@@ -249,7 +249,7 @@ pair<string, string> Game::getPlay(Player &player)
             p1_2 = code[play1.at(1)];
         }
     }
-    else
+    else //when a player can do 2 plays
     {
         cout << endl;
         cout << "Please input your plays: ";
@@ -257,6 +257,7 @@ pair<string, string> Game::getPlay(Player &player)
         checkPlays(play1, play2);
         int p1_1 = code[play1.at(0)], p1_2 = code[play1.at(1)], p2_1 = code[play2.at(0)], p2_2 = code[play2.at(1)];
 
+        //Dealing with bad input
         while (cin.fail() || (((p1_1 > boardSize) || (p1_2 > boardSize)) && (play1 != "Zz")) || (((p2_1 > boardSize) || (p2_2 > boardSize)) && (play2 != "Zz")))
         {
             cin.clear();
@@ -271,16 +272,15 @@ pair<string, string> Game::getPlay(Player &player)
         }
     }
 
-    checkPlays(play1, play2);
+    checkPlays(play1, play2); //this rearranges the plays into the prefered format
     return make_pair(play1, play2);
 }
 
 void Game::exchangeChip(Player &player)
 {
     int bagSize = letterBag.size();
-    if (bagSize >= 1)
+    if (bagSize >= 1) //checking if it's possible to exchange one chip
     {
-        srand(time(NULL));
         int ind1; //Index of the chip to switch in the playerPool.
         cout << "Hey, " << player.name << ". Let's do some chip switchin', shall we?" << endl;
         cout << "NOTE: You cannot exchange an invalid/empty chip (it's represented as a -)." << endl;
@@ -290,7 +290,7 @@ void Game::exchangeChip(Player &player)
         cout << "Input the index of the chip you wish to switch: ";
         cin >> ind1;
 
-        while ((cin.fail()) || (ind1 > 6) || (ind1 < 0))
+        while ((cin.fail()) || (ind1 > 6) || (ind1 < 0)) //dealing with bad input
         {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -312,7 +312,7 @@ void Game::exchangeChip(Player &player)
 
         cout << endl;
     }
-    else
+    else //otherwise, the game will give an apology to the player!
     {
         cout << "The pool is empty. The game will end after this turn!" << endl;
         cout << "Play your chips, if you can. Otherwise, do an invalid play!" << endl;
@@ -370,9 +370,9 @@ void Game::exchangeChips(Player &player)
 void Game::checkCapture(string word, Player &player)
 {
     vector<string> a = wordData[word];
-    if (a.size() == 0)
+    if (a.size() == 0) //if the coordinate vector is empty -> the word has been fully captured!
     {
-        player.score++;
+        player.score++; 
         int index = 0;
         index = findIndex(boardWords, word);
         boardWords.erase(boardWords.begin() + index);
@@ -381,6 +381,7 @@ void Game::checkCapture(string word, Player &player)
 
 int Game::findIndex(vector<string> &vect, string &findee)
 {
+    //Simple binary search function
     int bottom = 0;
     int top = vect.size() - 1;
     int middle;
@@ -405,13 +406,14 @@ int Game::findIndex(vector<string> &vect, string &findee)
 
 void Game::checkWords(Info &letter, Player &player, string play)
 {
+    //this function uses the letter's WORDS vector to check if it's a valid play
     vector<char>::iterator it = find(player.pool.begin(), player.pool.end(), letter.letter);
 
-    if (letter.words.size() == 1)
+    if (letter.words.size() == 1) //if the letter only belongs to one word...
     {
         vector<string> a = wordData[letter.words[0]]; //a is now the list of coordinates.
         int index = findIndex(a, play);
-        if (index == 0)
+        if (index == 0) //the index must be 0 (which means it'd be the first uncaptured letter - making it a valid play)
         {
             a.erase(a.begin() + index);
             wordData[letter.words[0]] = a;
@@ -424,8 +426,8 @@ void Game::checkWords(Info &letter, Player &player, string play)
             cout << "You can't capture that letter (" << play << "), " << player.name << ". Be more careful next time!" << endl;
         }
     }
-    else if (letter.words.size() == 2)
-    {
+    else if (letter.words.size() == 2) //if the letter belongs to 2 words, it's a little more complicated
+    {   //at least one of the letters must be the first uncaptured letter in a word, otherwise it's an invalid play!
         vector<string> a = wordData[letter.words[0]];
         int index = findIndex(a, play);
 
@@ -457,16 +459,16 @@ void Game::checkWords(Info &letter, Player &player, string play)
                 checkCapture(letter.words[0], player);
                 checkCapture(letter.words[1], player);
             }
-            else
+            else //if the letter does not belong to a word (i.e. it's already been captured), it's an invalid play!
             {
-                letter.state = false;
+                letter.state = false; //reverting back the letter's state
                 cout << "You can't capture that letter (" << play << "), " << player.name << ". You have to do it in order!" << endl;
             }
         }
     }
 }
 
-void Game::captureLetter(Info &letter, Player &player, string play)
+void Game::captureLetter(Info &letter, Player &player, string play) //this captures letters
 {
     if ((find(player.pool.begin(), player.pool.end(), letter.letter) != player.pool.end()) && (letter.state == false) && (letter.letter != ' '))
     {
@@ -486,7 +488,7 @@ void Game::makePlay(Player &player, pair<string, string> plays)
     while (true)
     {
         //Let's start by checking if the player wants to do any switching.
-        if ((plays.first == "Zz") && (plays.second == "Zz"))
+        if ((plays.first == "Zz") && (plays.second == "Zz")) 
         {
             exchangeChips(player);
             p1 = false;
