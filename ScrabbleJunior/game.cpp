@@ -136,6 +136,10 @@ void Game::prepGame(Board &board)
         }
     }
 
+    if (letterCount < 14){ //minimum of letters!
+        letterCount = 14;
+    }
+
     letterCount = letterCount + playerCount*7; //to compensate for the letter pool!
 
     int bagSize = bag.size();
