@@ -137,4 +137,5 @@ First of all, we're so sorry and hope it didn't affect your experience of the ga
 <li>The letter pool gets randomly assigned letters, which means not always will it get the recquired letters to finish the board;</li>
 <li>Player pools get sorted to help with choosing chips to exchange;</li>
 <li>The letter pool gets 7 more chips for each player to compensate for their respective pools (which are formed from the letter pool);</li>
+<li>Contribution: 50% from Henrique (BoardBuilder) and 50% from Mateus (ScrabbleJunior - done with Henrique's help);
 </ul>
