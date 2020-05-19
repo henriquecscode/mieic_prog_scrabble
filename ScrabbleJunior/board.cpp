@@ -17,6 +17,10 @@ map<string, vector<string>> Board::getWordData() const{
     return wordData;
 }
 
+int Board::getSize() const{
+    return size;
+}
+
 void Board::setWord(vector<vector<Info>> &vectorBoard, string coordinates, char orientation, string word){
     map<char, int> code{{'A', 0},{'B', 1}, {'C', 2}, {'D', 3}, {'E', 4}, {'F', 5}, {'G', 6}, {'H', 7}, {'I', 8}, {'J', 9}, {'K', 10}, {'L', 11}, {'M', 12}, {'N', 13}, {'O', 14}, {'P', 15}, {'Q', 16}, {'R', 17}, {'S', 18}, {'T', 19}, {'a', 0},{'b', 1}, {'c', 2}, {'d', 3}, {'e', 4}, {'f', 5}, {'g', 6}, {'h', 7}, {'i', 8}, {'j', 9}, {'k', 10}, {'l', 11}, {'m', 12}, {'n', 13}, {'o', 14}, {'p', 15}, {'q', 16}, {'r', 17}, {'s', 18}, {'t', 19}};
     map<int, string> revCode0{{0, "A"},{1, "B"}, {2, "C"}, {3, "D"}, {4, "E"}, {5, "F"}, {6, "G"}, {7, "H"}, {8, "I"}, {9, "J"}, {10, "K"}, {11, "L"}, {12, "M"}, {13, "N"}, {14, "O"}, {15, "P"}, {16, "Q"}, {17, "R"}, {18, "S"}, {19, "T"}};
@@ -66,6 +70,7 @@ vector<vector<Info>> Board::boardBuilder(){
     getline(file, fileLine);
     filestr << fileLine; //Passing all file contents to a stringstream;
     filestr >> x >> separator >> y;
+    size = x;
 
     while (!file.eof()){
         getline(file, fileLine);
@@ -84,13 +89,6 @@ vector<vector<Info>> Board::boardBuilder(){
         setWord(vectorBoard, locations[i], orientations[i], words[i]);
     }
 
-    /*//Debug purposes. THIS PRINTS THE FUCKING BOARD SO ERASE THIS WHEN YOU'RE DONE YOU CUNT;
-    for (int i = 0; i < x; i++){
-        for (int j = 0; j < y; j++){
-            cout << vectorBoard[i][j].letter << " ";
-        }
-        cout << endl;
-    }*/
     return vectorBoard; 
 }
 

@@ -39,6 +39,7 @@ As you can see, Player1 can capture both the F (of FRUIT) and the M (of MUSIC) i
 
 <p align="justify">
 Now, imagining Player2 has chips to do so for the sake of this explanation, he intends to keep capturing letters from the words FRUIT and MUSIC. He only wants to play one chip, though, so let's think about what can he do: he can either capture the R (Bb) from FRUIT or the U (Cb) from MUSIC. Depending on his/her/their strategy, one might be more ideal:
+</p>
 <ul>
 <li>if he captures the R, he'll be able to then capture the shared U without any problems;</li>
 <li>if he captures the U first, he'll only be able to capture the I from FRUIT after he captures its R;</li></ul>
@@ -74,7 +75,7 @@ If he inputs any other position, any switching will be COMPLETELY invalidated - 
 
 ### How to Use
 <p align="justify">
-Open the executable and you'll be greeted with a very simple interface that shall let you build your own boards. The first thing you'll have to do is give the program a file with words - don't worry, we already got you covered with a big one ("WORDS.txt") -, that will be used to verify the words you wish to place and even give you some suggestions in case you choose a word that isn't part of the file! After that, you'll be asked about the size of the board, which will always be square-shaped! Finally, the board builder will work similarly to the <strong>SCRABBLE JUNIOR</strong> game, but with a more slowed down pace, for each letter you wish to place in the board you'll need to provide:
+Open the executable and you'll be greeted with a very simple interface that shall let you build your own boards. The first thing you'll have to do is give the program a file with words - don't worry, we already got you covered with a big one ("WORDS.txt") -, that will be used to verify the words you wish to place and even give you some suggestions in case you choose a word that isn't part of the file! After that, you'll be asked about the size of the board, which will always be square-shaped! Finally, the board builder will work similarly to the <strong>SCRABBLE JUNIOR</strong> game, but with a more slowed down pace - for each letter you wish to place in the board you'll need to provide:
 </p>
 <ul>
 <li>a row coordinate (an upper case letter);</li>
@@ -82,7 +83,7 @@ Open the executable and you'll be greeted with a very simple interface that shal
 <li>an orientation (either H for Horizontal or V for Vertical);</li>
 </ul>
 <p align="justify">
-From just this, you will be able to build the board following some very simple guidelines - the builder will recognize situations where you're trying to do something that you shouldn't be able to do, and remind you accordingly, so don't worry about following rules! Don't forget to give your custom boards some appealing names! Might we suggest "BOARD_BY_ME"?
+From just this, you will be able to build the board following some very simple guidelines - the builder will recognize situations where you're trying to do something that you shouldn't be able to do, and remind you accordingly, so don't worry too much about following rules! Don't forget to give your custom boards some appealing names! Might we suggest "BOARD_BY_ME"?
 </p>
 
 ## FAQ
@@ -98,7 +99,7 @@ Whenever the letter pool (which will be constantly updated) is empty or (by some
 
 > Are there any special cases a player should know about?
 <p align="justify">
-When those cases arise, the game will tell the player what he should do. Most of the times, it's boils down to having to forcefully make an invalid play, since this is a mostly neutral action in a game - the only punish for invalid plays is a simple warning that the play was, in fact, invalid. This means that when you do it <em>on purpose</em>, there's nothing to lose from it, it's just a way to move to the next turn until the game can actually do what it should!
+When those cases arise, the game will tell the player what he should do. Most of the times, it boils down to having to forcefully make an invalid play, since this is a mostly neutral action in a game - the only punish for invalid plays is a simple warning that the play was, in fact, invalid. This means that when you do it <em>on purpose</em>, there's nothing to lose from it, it's just a way to move to the next turn until the game can actually do what it should!
 </p>
 
 > How many words can I put in a board when building one?
@@ -108,31 +109,33 @@ As many as the simple guidelines the BOARD BUILDER follows allows you to, which 
 
 > Why do I have to put the executables in the same place as the files I need to use?
 <p align= "justify">
-Both programs were made to work inside a specific folder for them - we took this into consideration since we also like having an organized computer, with a folder for a game. Also, the alternative consisted in having the player copy the WHOLE path to a file and pasting it on input, which would be (in our humble opinion) a hassle for everyone.
+Both programs were made to work inside a specific folder for them (like a closed environment, really) - we took this into consideration since we also like having an organized computer, where we'd have a specific folder dedicated to a game. Also, the alternative consisted in having the player copy the WHOLE path to a file and pasting it on input, which would be (in our humble opinion) a hassle.
 </p>
 
 > Is there any easy strategy to win the game?
 <p align= "justify">
-Being attentive and concentrated in what you're doing is a great start - which we mean without an ounce of passive-aggressiveness towards the person reading this. As alluded before, <strong>SCRABBLE JUNIOR</strong> is <em>kind of</em> a luck based game. We tried to make it a little more stategy based by asking for attention from the player - for example: you won't be forced to play a chip you can play because you might wish to exchange it instead for a potentially better one -, so that's really all we can tell you. But keeping track of each player's chips can definitely be useful, as well!
+Being attentive and concentrated in what you're doing is a great start - which we mean without an ounce of passive-aggressiveness towards the person reading this. As alluded before, <strong>SCRABBLE JUNIOR</strong> is (<em>kind of</em>) a luck based game. We tried to make it a little more stategy based by asking for attention from the player - for example: you won't be forced to play a chip you can play because you might wish to exchange it instead for a potentially better one -, so that's really all we can tell you. Keeping track of each player's chips can definitely be useful, as well, though!
 </p>
 
 > I found a bug! How should I tell you about it?
 <p align= "justify">
-First of all, we're so sorry and hope it didn't affect your experience of the game or the builder. If you wish to contact us, try reaching out through GitHub and tell us about the issue. We'll try to attend to it as soon as possible and thanks for worrying about it!
+First of all, we're so sorry and hope it didn't affect your experience of the game or the board builder. If you wish to contact us, try reaching out through GitHub and tell us about the issue. We'll try to attend to it as soon as possible and thanks for worrying about it!
 </p>
 
 
 ## Choices we made
 <ul>
 <li>The board builder suggests words to the user whenever they try to place a letter that's not part of the word list file used;</li>
-<li>The board builder makes sure words aren't entirely adjacent (2 horizontal words won't be in succeeding horizontal lines, just like 2 vertical words won't be in succeeding vertical lines and two words of different orientation won't "touch" unless they share an intersecting letter);</li>
-<li>While doing building a board, it's recquired to input the coordinates without fail (uppercase letter - row -, lowercase letter - collumn -, uppercase letter - orientation);</li>
-<li>During games, the previous choice is way more relaxed - players can input unformatted plays (like "aA", "aa" or "AA"), the game is ready to deal with these situations;</li>
+<li>The board builder makes sure words aren't entirely adjacent (2 horizontal words won't be in succeeding horizontal lines, just like 2 vertical words won't be in succeeding vertical collumns and two words of different orientation won't "touch" unless they share an intersecting letter);</li>
+<li>While building a board, it's recquired to input the coordinates without fail (uppercase letter - row -, lowercase letter - collumn -, uppercase letter (V or H) - orientation);</li>
+<li>During games, input is way more relaxed - players can input unformatted plays (like "aA", "aa" or "AA"), the game is ready to deal with these situations;</li>
 <li>A player cannot exchange an invalid (-) chip - should one player try it, their turn will immediately end;</li>
 <li>Players don't get punished for invalid plays - an invalid play will just result in a simple warning -, and might be solicited from players in some extreme cases;</li>
-<li>Trying to capture letters in the wrong order (for example, trying to capture the R and U in FRUIT by inputting the U coordinate before R) will not capture the letters, since the capturing is done sequentially, one play at a time;</li>
+<li>Trying to capture letters in the wrong order (for example, trying to capture the R and U in FRUIT by inputting the U coordinate before R) will not capture the letters - capturing is done sequentially, one play at a time;</li>
 <li>Players get to force a tie, but doing this won't declare a winner - seemed like the fair thing to do;</li>
 <li>The letter pool ending results in an abrupt ending, but with a winner declared;</li>
 <li>The letter pool gets randomly assigned letters, which means not always will it get the recquired letters to finish the board;</li>
 <li>Player pools get sorted to help with choosing chips to exchange;</li>
+<li>The letter pool gets 7 more chips for each player to compensate for their respective pools (which are formed from the letter pool);</li>
+<li>Contribution: 50% from Henrique (BoardBuilder) and 50% from Mateus (ScrabbleJunior - done with Henrique's help);
 </ul>
