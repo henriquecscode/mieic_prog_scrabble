@@ -1,13 +1,5 @@
-#include <fstream>
 #include "board.h"
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <bits/stdc++.h> 
-#include <utility>
-#include <vector>
-#include <map>
-using namespace std;
+
 
 vector<string> Board::getWords() const{
     return words;
@@ -17,8 +9,8 @@ map<string, vector<string>> Board::getWordData() const{
     return wordData;
 }
 
-int Board::getSize() const{
-    return size;
+pair<int, int> Board::getSize() const{
+    return make_pair(lines - 1, cols - 1);
 }
 
 void Board::setWord(vector<vector<Info>> &vectorBoard, string coordinates, char orientation, string word){
@@ -26,7 +18,8 @@ void Board::setWord(vector<vector<Info>> &vectorBoard, string coordinates, char 
     map<int, string> revCode0{{0, "A"},{1, "B"}, {2, "C"}, {3, "D"}, {4, "E"}, {5, "F"}, {6, "G"}, {7, "H"}, {8, "I"}, {9, "J"}, {10, "K"}, {11, "L"}, {12, "M"}, {13, "N"}, {14, "O"}, {15, "P"}, {16, "Q"}, {17, "R"}, {18, "S"}, {19, "T"}};
     map<int, string> revCode1{{0, "a"},{1, "b"}, {2, "c"}, {3, "d"}, {4, "e"}, {5, "f"}, {6, "g"}, {7, "h"}, {8, "i"}, {9, "j"}, {10, "k"}, {11, "l"}, {12, "m"}, {13, "n"}, {14, "o"}, {15, "p"}, {16, "q"}, {17, "r"}, {18, "s"}, {19, "t"}};
     int line = code[coordinates.at(0)], col = code[coordinates.at(1)]; //line and collumn declaration;
-    if (orientation == 'H'){//horizontal means we have to traverse collumns - second dimension;
+    if (orientation == 'H'){
+        //Horizontal means we have to traverse collumns - second dimension;
         for (int i = 0; i < word.size(); i++){
             wordData[word].push_back(revCode0[line] + revCode1[col + i]);
             vectorBoard[line][col + i].words.push_back(word);
@@ -70,7 +63,8 @@ vector<vector<Info>> Board::boardBuilder(){
     getline(file, fileLine);
     filestr << fileLine; //Passing all file contents to a stringstream;
     filestr >> x >> separator >> y;
-    size = x;
+    lines = x;
+    cols = y;
 
     while (!file.eof()){
         getline(file, fileLine);
@@ -83,7 +77,7 @@ vector<vector<Info>> Board::boardBuilder(){
     int length = words.size();
     Info info;
     info.letter = ' ';
-    vector<vector<Info>> vectorBoard(x, vector<Info>(y, info));
+    vector<vector<Info>> vectorBoard(lines, vector<Info>(cols, info));
 
     for (int i = 0; i < length; i++){
         setWord(vectorBoard, locations[i], orientations[i], words[i]);

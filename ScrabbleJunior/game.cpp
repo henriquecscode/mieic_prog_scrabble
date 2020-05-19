@@ -3,7 +3,6 @@ using namespace std;
 
 int Game::getIndex(int size)
 {
-    static srand(time(NULL)); //random generator
     int result = rand() % size; //getting an index;
     return result;
 }
@@ -109,7 +108,7 @@ void Game::prepGame(Board &board)
     //Getting all letters in a set so we can create a pool for each player.
     set<char> lBagSet; 
     vector<string> vecWo = board.getWords(); //getting the board words
-    boardSize = board.getSize() - 1; //the size of the board will start counting from 0
+    boardDim = board.getSize(); //the size of the board will start counting from 0
     sort(vecWo.begin(), vecWo.end()); //sorting the words
     boardWords = vecWo; //passing the words into a private element of the class
     int letterCount = 0;
@@ -242,7 +241,7 @@ pair<string, string> Game::getPlay(Player &player)
         play2 = "Uu"; //this is a special play, that the game will recognize as nothing, basically
         int p1_1 = code[play1.at(0)], p1_2 = code[play1.at(1)];
 
-        while (cin.fail() || (((p1_1 > boardSize) || (p1_2 > boardSize)) && (play1 != "Zz")))
+        while (cin.fail() || (((p1_1 > boardDim.first) || (p1_2 > boardDim.second)) && (play1 != "Zz")))
         {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -262,7 +261,7 @@ pair<string, string> Game::getPlay(Player &player)
         int p1_1 = code[play1.at(0)], p1_2 = code[play1.at(1)], p2_1 = code[play2.at(0)], p2_2 = code[play2.at(1)];
 
         //Dealing with bad input
-        while (cin.fail() || (((p1_1 > boardSize) || (p1_2 > boardSize)) && (play1 != "Zz")) || (((p2_1 > boardSize) || (p2_2 > boardSize)) && (play2 != "Zz")))
+        while (cin.fail() || (((p1_1 > boardDim.first) || (p1_2 > boardDim.second)) && (play1 != "Zz")) || (((p2_1 > boardDim.first) || (p2_2 > boardDim.second)) && (play2 != "Zz")))
         {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -384,7 +383,7 @@ void Game::checkCapture(string word, Player &player)
     }
 }
 
-int Game::findIndex(vector<string> &vect, string &findee)
+int Game::findIndex(vector<string> vect, string findee)
 {
     //Simple binary search function
     int bottom = 0;
@@ -536,7 +535,7 @@ void Game::makePlay(Player &player, pair<string, string> plays)
     }
 }
 
-void Game::game(Board &board, vector<Player> &players)
+void Game::game(vector<Player> &players)
 {
     while (!end)
     {
@@ -606,28 +605,27 @@ void Game::execute()
     beginningInstructions();
     Board board;
     prepGame(board);
-    game(board, players);
+    game(players);
     declareWinner();
 }
 
 void Game::printBoard() const
 {
-    static int size = vectorBoard.size();
     setColorNormal();
     std::cout << endl;
     std::cout << "  ";
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i <= boardDim.second; i++)
     {
         std::cout << std::setw(2) << char(ASCII_a + i);
     }
     std::cout << '\n';
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i <= boardDim.first; i++)
     {
         setColorNormal();
         std::cout << std::setw(2) << char(ASCII_A + i);
         setColorBoard();
-        for (int j = 0; j < size; j++)
+        for (int j = 0; j <= boardDim.second; j++)
         {
             setColorNotCaptured();
             if (vectorBoard[i][j].state == true)
@@ -683,6 +681,7 @@ int main()
 {
     string fin;
     Game game;
+    srand(time(NULL));
     game.execute();
     cout << "Input anything to close the game! " << endl;
     cin >> fin;
