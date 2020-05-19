@@ -5,6 +5,7 @@ BoardBuilder::BoardBuilder()
     setFile();
     readFile();
     setSize();
+    constructBoard();
     setBoard();
     saveBoard();
 }
@@ -34,14 +35,6 @@ void BoardBuilder::readFile()
     dict_file.close();
 }
 
-void BoardBuilder::showDictionary() const
-{
-    for (auto it = dictionary.begin(); it != dictionary.end(); it++)
-    {
-        std::cout << *it << '\n';
-    }
-}
-
 void BoardBuilder::setSize()
 {
     do
@@ -49,7 +42,6 @@ void BoardBuilder::setSize()
         std::cout << "Input a board size [5,20]\n";
         size = readInt();
     } while (size <= 4 || size > 20);
-    constructBoard();
 }
 
 void BoardBuilder::setBoard()
