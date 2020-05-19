@@ -49,9 +49,9 @@ public:
     void readFile();
 
     /**
-     * Gets and set board size 
+     * Gets and set board dimensions
     */
-    void setSize();
+    void setDimensions();
 
     /**
      * Asks for words and tries to insert them in the board
@@ -171,7 +171,8 @@ public:
     std::string toUpper(std::string word) const;
 
 private:
-    int size;  /**< Size of the board*/
+    int width;  /**< Width of the board*/
+    int height; /**< Height of the board*/
     std::ifstream dict_file;  /**< File with the words of the dictionary*/
     std::vector<std::string> dictionary;  /**< Dictionary of the possible words*/
     std::vector<std::vector<char>> board;  /**< Characters in each position of the board*/

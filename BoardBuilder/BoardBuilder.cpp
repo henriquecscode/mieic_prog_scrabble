@@ -4,7 +4,7 @@ BoardBuilder::BoardBuilder()
 {
     setFile();
     readFile();
-    setSize();
+    setDimensions();
     constructBoard();
     setBoard();
     saveBoard();
@@ -35,13 +35,18 @@ void BoardBuilder::readFile()
     dict_file.close();
 }
 
-void BoardBuilder::setSize()
+void BoardBuilder::setDimensions()
 {
     do
     {
-        std::cout << "Input a board size [5,20]\n";
-        size = readInt();
-    } while (size <= 4 || size > 20);
+        std::cout << "Input a board width [5,20]\n";
+        width = readInt();
+    } while (width <= 4 || width > 20);
+    do
+    {
+        std::cout << "Input a board height [5,20]\n";
+        height = readInt();
+    } while (height <= 4 || height > 20);
 }
 
 void BoardBuilder::setBoard()
@@ -94,16 +99,16 @@ void BoardBuilder::setWordInBoard(std::string word)
 void BoardBuilder::printBoard() const
 {
     std::cout << "  ";
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < width; i++)
     {
         std::cout << std::setw(2) << char(ASCII_a + i);
     }
     std::cout << '\n';
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < height; i++)
     {
         std::cout << std::setw(2) << char(ASCII_A + i);
-        for (int j = 0; j < size; j++)
+        for (int j = 0; j < width; j++)
         {
             std::cout << std::setw(2);
             std::cout << board[i][j];
@@ -128,9 +133,9 @@ void BoardBuilder::saveBoard() const
 
 void BoardBuilder::constructBoard()
 {
-    // Construct an empty board after knowing what size it will be
-    board = std::vector<std::vector<char>>(size, std::vector<char>(size, ' '));
-    board_coord_to_word = std::vector<std::vector<std::vector<BoardWord>>>(size, std::vector<std::vector<BoardWord>>(size, std::vector<BoardWord>()));
+    // Construct an empty board after knowing what the dimensions it will be
+    board = std::vector<std::vector<char>>(height, std::vector<char>(width, ' '));
+    board_coord_to_word = std::vector<std::vector<std::vector<BoardWord>>>(height, std::vector<std::vector<BoardWord>>(width, std::vector<BoardWord>()));
 }
 
 std::string BoardBuilder::getWord(const std::string &expected_word) const
@@ -174,11 +179,12 @@ bool BoardBuilder::insertWord(std::string word, int x, int y, orientation word_o
 {
     int word_len = word.length();
 
-    //Versor to know the direction of the word
-    int versor[2] = {word_orientation == horizontal, word_orientation == vertical};
+    int versor[2] = {word_orientation == horizontal, word_orientation == vertical}; //Versor to know the direction of the word
+    int size = versor[0] * width + versor[1] * height;                              //The length of the board measured parallel to the word
+    int size_perpendicular = versor[1] * width + versor[0] * height;                // The length of the board measured perpendicular to the word
 
     //Check if the word is inside the board
-    if (x + versor[0] * word_len > size || y + versor[1] * word_len > size)
+    if (x + versor[0] * word_len > width || y + versor[1] * word_len > height)
     {
         // Out of bounds
         return false;
@@ -242,13 +248,13 @@ bool BoardBuilder::insertWord(std::string word, int x, int y, orientation word_o
         }
         bool proceed = true;
         //Let's check for problems in it's footprint: the coordinates adjacent in the perpendicular direction
-        if ((x - versor[1]) * versor[1] + (y - versor[0]) * versor[0] >= 0)
+        if (x * versor[1] + y * versor[0] > 0)
         {
             // We can check the footprint in the left/up side
             std::vector<BoardWord> footprint_words = board_coord_to_word[this_y - versor[0]][this_x - versor[1]];
             proceed = proceed && checkWordFootprint(this_x - versor[1], this_y - versor[0], footprint_words, true, word_orientation);
         }
-        if ((x + versor[1]) * versor[1] + (y + versor[0]) * versor[0] <= size - 1)
+        if (x * versor[1] + y * versor[0] < size_perpendicular - 1)
         {
             // We can check the footprint in the right/down side
             std::vector<BoardWord> footprint_words = board_coord_to_word[this_y + versor[0]][this_x + versor[1]];
@@ -292,9 +298,11 @@ bool BoardBuilder::checkWordFootprint(int footprint_x, int footprint_y, std::vec
                 return false;
             }
         }
-        else{
+        else
+        {
             // We are in the right or below the word, so need to check if another words starts in this position
-            if(it->num_coords[0] == footprint_x && it->num_coords[1] == footprint_y){
+            if (it->num_coords[0] == footprint_x && it->num_coords[1] == footprint_y)
+            {
                 return false;
             }
         }
@@ -340,7 +348,7 @@ int BoardBuilder::binarySearch(const std::string &word) const
 void BoardBuilder::saveData(std::ofstream &file) const
 {
     //Still missing conversion to upper case
-    file << size << " x " << size;
+    file << height << " x " << width;
     for (auto it = used_words.begin(); it != used_words.end(); it++)
     {
         file << '\n'
@@ -407,7 +415,7 @@ void BoardBuilder::askCoordinate(int &x, int &y) const
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Which row will the word start" << '\n';
         std::cin >> row;
-    } while (row < ASCII_A || row >= ASCII_A + size);
+    } while (row < ASCII_A || row >= ASCII_A + height);
 
     do
     {
@@ -415,7 +423,7 @@ void BoardBuilder::askCoordinate(int &x, int &y) const
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Which column will the word start" << '\n';
         std::cin >> column;
-    } while (column < ASCII_a || column >= ASCII_a + size);
+    } while (column < ASCII_a || column >= ASCII_a + width);
 
     //Now we have both chars, and we need to pass them to int
     x = column - ASCII_a;
